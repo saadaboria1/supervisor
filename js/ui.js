@@ -163,7 +163,7 @@ const UIManager = {
                             <div class="avatar-circle avatar-cyan">${this.getInitials(plan.teacherName)}</div>
                             <div class="teacher-details">
                                 <span class="teacher-name font-bold" onclick="UIManager.openTeacher360Profile(${plan.teacherId})" style="cursor: pointer; color: var(--primary-600);">${plan.teacherName}</span>
-                                <span class="teacher-id">${plan.grade}</span>
+                                <span class="teacher-id text-xs text-muted">${plan.gradeClass || plan.grade || plan.branch || 'المرحلة الدراسية'}</span>
                             </div>
                         </div>
                     </td>
