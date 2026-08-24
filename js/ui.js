@@ -441,12 +441,15 @@ const UIManager = {
     },
 
     // ==============================================================================
-    // 5. TEACHER 360° SUPERVISION PROFILE MODAL
+    // 5. TEACHER 360° SUPERVISION PROFILE MODAL & ISOLATED PRINT
     // ==============================================================================
+    currentViewingTeacherId: null,
+
     openTeacher360Profile(teacherId) {
         const teacher = AppState.teachers.find(t => t.id === teacherId);
         if (!teacher) return;
 
+        this.currentViewingTeacherId = teacher.id;
         const modal = document.getElementById('teacher360Modal');
         if (!modal) return;
 
@@ -492,6 +495,189 @@ const UIManager = {
 
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+    },
+
+    renderTeacherPrintableReport(teacher) {
+        const printContainer = document.getElementById('teacherReportPrintArea');
+        if (!printContainer) return;
+
+        const teacherPlans = AppState.weeklyPlans.filter(p => p.teacherId === teacher.id);
+        const teacherActions = AppState.improvementActions.filter(a => a.teacherId === teacher.id);
+
+        let ratingLabel = 'ممتاز مرتفع';
+        if (teacher.performanceRating < 85) ratingLabel = 'جيد جداً';
+        if (teacher.performanceRating < 75) ratingLabel = 'جيد - بحاجة متابعة';
+        if (teacher.performanceRating < 65) ratingLabel = 'يتطلب تدخلاً عاجلاً';
+
+        const plansRows = teacherPlans.length > 0 ? teacherPlans.map(p => `
+            <tr>
+                <td>الأسبوع ${p.weekNumber}</td>
+                <td>${p.dateRange || 'الفصل الأول'}</td>
+                <td>${p.gradeClass || p.grade || teacher.branch}</td>
+                <td>${p.monthlyTheme || '---'}</td>
+                <td><strong>${p.status === 'approved' ? 'معتمدة ومطابقة' : 'قيد المراجعة'}</strong></td>
+            </tr>
+        `).join('') : '<tr><td colspan="5" style="text-align: center; color: #64748b;">لا توجد خطط أسبوعية مسجلة</td></tr>';
+
+        const actionsRows = teacherActions.length > 0 ? teacherActions.map(a => `
+            <tr>
+                <td>#${a.id}</td>
+                <td>${a.problemStatement}</td>
+                <td><strong>${a.actionPlan}</strong></td>
+                <td>${a.deadline}</td>
+                <td>${a.progressPercentage}%</td>
+                <td>${a.status === 'closed_verified' ? 'تم الإغلاق والتحقق' : 'جاري المتابعة'}</td>
+            </tr>
+        `).join('') : '<tr><td colspan="6" style="text-align: center; color: #16a34a;">لا توجد إجراءات تحسينية معلقة - الأداء مستقر ومتميز</td></tr>';
+
+        printContainer.innerHTML = `
+            <div class="teacher-official-sheet">
+                <!-- Document Header -->
+                <div class="official-report-header">
+                    <div class="report-header-right">
+                        <p>المملكة العربية السعودية</p>
+                        <p>وزارة التعليم</p>
+                        <p>الإدارة العامة للتعليم بمنطقة الرياض</p>
+                        <p><strong>مجمع مدارس المدينة الأكاديمية (الوطني والدولي)</strong></p>
+                    </div>
+                    <div class="report-header-center">
+                        <div class="official-logo-box" style="background: transparent; border: none; box-shadow: none; width: 68px; height: 68px; margin: 0 auto 0.5rem auto;">
+                            <img src="assets/logo.png" alt="شعار المدارس" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                        <h2 style="font-size: 1.15rem; font-weight: 800; margin: 0; color: #0f172a;">تقرير المتابعة والأداء الإشرافي الفردي للمعلم</h2>
+                        <span class="report-ref-badge" style="font-size: 0.75rem; background: #f1f5f9; padding: 0.15rem 0.6rem; border-radius: 4px; border: 1px solid #cbd5e1; display: inline-block; margin-top: 0.3rem;">الرقم المرجعي: AC-T-2026/0${teacher.id}</span>
+                    </div>
+                    <div class="report-header-left">
+                        <p><strong>تاريخ التقرير:</strong> 24 أغسطس 2026</p>
+                        <p><strong>العام الدراسي:</strong> 2026 / 2027</p>
+                        <p><strong>الفصل الدراسي:</strong> الأول</p>
+                        <p><strong>المشرف المقيم:</strong> د. فرج دنيا</p>
+                    </div>
+                </div>
+
+                <!-- Teacher Bio & Stats Card -->
+                <div style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; margin: 1rem 0; background: #f8fafc; display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin: 0 0 0.5rem 0;">👤 ${teacher.name}</h3>
+                        <p style="margin: 0.2rem 0; font-size: 0.85rem; color: #334155;"><strong>التخصص والمادة:</strong> ${teacher.subject}</p>
+                        <p style="margin: 0.2rem 0; font-size: 0.85rem; color: #334155;"><strong>القسم / المرحلة:</strong> ${teacher.branch}</p>
+                        <p style="margin: 0.2rem 0; font-size: 0.85rem; color: #334155;"><strong>الرقم الوظيفي (كود):</strong> ${teacher.code} | <strong>معرّف كلاسيرة:</strong> ${teacher.classeraTeacherId}</p>
+                        <p style="margin: 0.2rem 0; font-size: 0.85rem; color: #334155;"><strong>البريد الإلكتروني:</strong> ${teacher.email} | <strong>الهاتف:</strong> ${teacher.phone}</p>
+                    </div>
+                    <div style="text-align: center; border-right: 1px dashed #cbd5e1; padding-right: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">معدل التقييم التراكمي</span>
+                        <span style="font-size: 1.8rem; font-weight: 900; color: #1e40af; line-height: 1.2;">${teacher.performanceRating}%</span>
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #16a34a; background: #dcfce7; padding: 0.2rem 0.6rem; border-radius: 20px; margin-top: 0.3rem;">${ratingLabel}</span>
+                    </div>
+                </div>
+
+                <!-- Diagnosis Box -->
+                <div style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 1rem; background: #ffffff;">
+                    <strong style="font-size: 0.88rem; color: #0f172a;">📌 التشخيص الإشرافي والتوصية الميدانية:</strong>
+                    <p style="font-size: 0.85rem; color: #334155; margin: 0.3rem 0 0 0; line-height: 1.5;">${teacher.statusReason || 'الأداء التدريسي منتظم ومطابق لمعايير جودة التعليم المعتمدة بالمجمع.'}</p>
+                </div>
+
+                <!-- Strengths & Growth Areas Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="border: 1px solid #86efac; background: #f0fdf4; border-radius: 8px; padding: 0.85rem 1rem;">
+                        <h4 style="font-size: 0.88rem; font-weight: 800; color: #166534; margin: 0 0 0.5rem 0;">✨ أبرز نقاط القوة التدريسية:</h4>
+                        <ul style="margin: 0; padding-right: 1.25rem; font-size: 0.82rem; color: #14532d; line-height: 1.6;">
+                            ${(teacher.strengths || []).map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="border: 1px solid #fde047; background: #fefce8; border-radius: 8px; padding: 0.85rem 1rem;">
+                        <h4 style="font-size: 0.88rem; font-weight: 800; color: #854d0e; margin: 0 0 0.5rem 0;">🎯 فرص ومجالات التطوير والتحسين:</h4>
+                        <ul style="margin: 0; padding-right: 1.25rem; font-size: 0.82rem; color: #713f12; line-height: 1.6;">
+                            ${(teacher.areasForImprovement || []).map(g => `<li>${g}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Weekly Plans Table -->
+                <div style="margin-bottom: 1rem;">
+                    <h4 style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin: 0 0 0.4rem 0;">📅 سجل الخطط الدراسية الأسبوعية:</h4>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: right; border: 1px solid #cbd5e1;">
+                        <thead>
+                            <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
+                                <th style="padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1;">الأسبوع</th>
+                                <th style="padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1;">الفترة الزمنية</th>
+                                <th style="padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1;">الصف والمرحلة</th>
+                                <th style="padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1;">القيمة الشهرية</th>
+                                <th style="padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1;">حالة الاعتماد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${plansRows}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Improvement Actions Table -->
+                <div style="margin-bottom: 1.25rem;">
+                    <h4 style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin: 0 0 0.4rem 0;">⚡ الإجراءات التحسينية وخطط الدعم:</h4>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; text-align: right; border: 1px solid #cbd5e1;">
+                        <thead>
+                            <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">#</th>
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">الملاحظة المرصودة</th>
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">الإجراء العلاجي (SMART)</th>
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">الموعد</th>
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">الإنجاز</th>
+                                <th style="padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1;">الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${actionsRows}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Signatures & Stamp -->
+                <div class="report-signatures-grid" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed #94a3b8; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 0.82rem;">
+                    <div>
+                        <p style="margin: 0 0 0.2rem 0; color: #64748b;">توقيع المعلم</p>
+                        <p style="margin: 0; font-weight: 800; color: #0f172a;">${teacher.name}</p>
+                        <p style="margin: 0.8rem 0 0 0; color: #94a3b8;">التوقيع: .....................</p>
+                    </div>
+                    <div>
+                        <p style="margin: 0 0 0.2rem 0; color: #64748b;">المشرف التربوي المقيم</p>
+                        <p style="margin: 0; font-weight: 800; color: #0f172a;">د. فرج دنيا</p>
+                        <p style="margin: 0.8rem 0 0 0; color: #94a3b8;">التوقيع: .....................</p>
+                    </div>
+                    <div>
+                        <div class="official-stamp-circle" style="width: 80px; height: 80px; border: 2px dashed #dc2626; border-radius: 50%; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: #dc2626; font-weight: 800; transform: rotate(-10deg);">
+                            <span>مدارس المدينة</span>
+                            <span>الأكاديمية</span>
+                            <span>معتمد رسمي</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    printTeacherReport(teacherId) {
+        const id = teacherId || this.currentViewingTeacherId;
+        const teacher = AppState.teachers.find(t => t.id === id);
+        if (!teacher) {
+            this.showToast('تعذر العثور على بيانات المعلم للطباعة', 'error');
+            return;
+        }
+
+        // Render isolated printable report
+        this.renderTeacherPrintableReport(teacher);
+
+        // Set body class for isolated teacher print
+        document.body.classList.remove('printing-campus-report');
+        document.body.classList.add('printing-teacher-report');
+
+        // Execute print
+        window.print();
+
+        // Cleanup
+        setTimeout(() => {
+            document.body.classList.remove('printing-teacher-report');
+        }, 1000);
     },
 
     // ==============================================================================
@@ -561,7 +747,12 @@ const UIManager = {
     },
 
     printCampusFullReport() {
+        document.body.classList.remove('printing-teacher-report');
+        document.body.classList.add('printing-campus-report');
         window.print();
+        setTimeout(() => {
+            document.body.classList.remove('printing-campus-report');
+        }, 1000);
     },
 
     exportCampusReportCSV() {
@@ -919,6 +1110,7 @@ window.syncToSupabaseCloud = () => UIManager.syncToSupabaseCloud();
 window.UIManager = UIManager;
 window.openCampusFullReportModal = () => UIManager.openCampusFullReportModal();
 window.printCampusFullReport = () => UIManager.printCampusFullReport();
+window.printTeacherReport = (id) => UIManager.printTeacherReport(id);
 window.exportCampusReportCSV = () => UIManager.exportCampusReportCSV();
 
 

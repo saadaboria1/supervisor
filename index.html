@@ -1148,7 +1148,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إغلاق</button>
-                    <button type="button" class="btn btn-primary" onclick="window.print()">
+                    <button type="button" class="btn btn-primary" onclick="UIManager.printTeacherReport()">
                         <i class="fa-solid fa-print"></i> طباعة تقرير المعلم
                     </button>
                 </div>
@@ -1551,6 +1551,13 @@
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- ==========================================================
+             OFFICIAL TEACHER REPORT PRINTABLE CONTAINER (مخصص للطباعة فقط)
+             ========================================================== -->
+        <div id="teacherReportPrintArea" class="official-teacher-print-area">
+            <!-- Dynamically populated via UIManager.renderTeacherPrintableReport() -->
         </div>
 
         <!-- ==========================================================

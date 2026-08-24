@@ -3522,39 +3522,117 @@ textarea.form-control {
     }
 }
 
-/* Print Styles */
+/* ==========================================================================
+   26. OFFICIAL PRINT ARCHITECTURE & ISOLATED REPORT PRINTING
+   ========================================================================== */
+
+/* Screen style for Teacher Print Area: Hidden on screen */
+#teacherReportPrintArea,
+.official-teacher-print-area {
+    display: none;
+}
+
 @media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 1. Hide everything in the body by default */
     body * {
-        visibility: hidden;
+        visibility: hidden !important;
     }
-    #campusFullReportModal, #campusFullReportModal * {
-        visibility: visible;
+
+    /* 2. Hide all non-printable UI chrome unconditionally */
+    .sidebar,
+    .top-header,
+    .sidebar-backdrop,
+    .page-actions,
+    .action-buttons,
+    .table-controls,
+    .filter-pills-container,
+    .role-switcher-box,
+    .toast-container,
+    .modal-overlay,
+    .modal-dialog,
+    .modal-header,
+    .modal-footer,
+    .modal-close-btn,
+    .btn {
+        display: none !important;
+        visibility: hidden !important;
     }
-    #campusFullReportModal {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: auto;
-        background: #ffffff !important;
+
+    /* 3. ISOLATED TEACHER REPORT PRINT MODE */
+    body.printing-teacher-report #teacherReportPrintArea,
+    body.printing-teacher-report #teacherReportPrintArea * {
+        visibility: visible !important;
+    }
+
+    body.printing-teacher-report #teacherReportPrintArea {
         display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        z-index: 999999 !important;
+    }
+
+    body.printing-teacher-report .teacher-official-sheet {
+        display: block !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        font-family: 'Cairo', 'Tajawal', sans-serif !important;
+    }
+
+    /* 4. ISOLATED CAMPUS FULL REPORT PRINT MODE */
+    body.printing-campus-report #campusFullReportModal,
+    body.printing-campus-report #campusFullReportModal * {
+        visibility: visible !important;
+    }
+
+    body.printing-campus-report #campusFullReportModal {
+        display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        z-index: 999999 !important;
         opacity: 1 !important;
     }
-    #campusFullReportModal .modal-dialog {
+
+    body.printing-campus-report #campusFullReportModal .modal-dialog {
+        display: block !important;
         max-width: 100% !important;
+        width: 100% !important;
         margin: 0 !important;
         box-shadow: none !important;
         border: none !important;
+        background: #ffffff !important;
     }
-    #campusFullReportModal .modal-header,
-    #campusFullReportModal .modal-footer {
-        display: none !important;
-    }
-    #campusFullReportModal .modal-body {
+
+    body.printing-campus-report #campusFullReportModal .modal-body {
+        display: block !important;
         padding: 0 !important;
-    }
-    .sidebar, .top-header, .page-actions, .action-buttons, .table-controls, .filter-pills-container, .role-switcher-box {
-        display: none !important;
+        overflow: visible !important;
+        max-height: none !important;
     }
 }
 
