@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كادر المعلمين | مدارس المدينة الأكاديمية</title>
+    
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="app-layout" id="appLayout">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-container">
+                    <img src="../assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="brand-logo-img">
+                </div>
+                <div class="brand-info">
+                    <h2 class="brand-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="brand-subtitle">Academic City Schools</span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sidebar-menu-wrapper">
+                <div class="menu-category">القائمة الرئيسية</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item">
+                        <a href="../index.html#dashboard" class="menu-link"><i class="fa-solid fa-chart-pie menu-icon"></i><span class="menu-text">الرئيسية</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="teachers.html" class="menu-link active"><i class="fa-solid fa-chalkboard-user menu-icon"></i><span class="menu-text">المعلمون</span><span class="menu-count" id="sidebarTeacherCount">142</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="visits.html" class="menu-link"><i class="fa-solid fa-calendar-check menu-icon"></i><span class="menu-text">الزيارات المجدولة</span><span class="menu-badge badge-warning" id="sidebarVisitBadge">8 اليوم</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="evaluations.html" class="menu-link"><i class="fa-solid fa-clipboard-list menu-icon"></i><span class="menu-text">التقييمات</span><span class="menu-count" id="sidebarEvalCount">24</span></a>
+                    </li>
+                </ul>
+
+                <div class="menu-category">الإدارة والمتابعة</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item">
+                        <a href="reports.html" class="menu-link"><i class="fa-solid fa-chart-line menu-icon"></i><span class="menu-text">التقارير والإحصائيات</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="schools.html" class="menu-link"><i class="fa-solid fa-school menu-icon"></i><span class="menu-text">أقسام ومراحل المدارس</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="settings.html" class="menu-link"><i class="fa-solid fa-gear menu-icon"></i><span class="menu-text">الإعدادات</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="supervisor-card">
+                    <div class="supervisor-avatar">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="المشرف">
+                        <span class="status-dot"></span>
+                    </div>
+                    <div class="supervisor-info">
+                        <h4 class="supervisor-name" id="sidebarSupervisorName">د. فرج دنيا</h4>
+                        <span class="supervisor-role">المشرف المقيم - المدينة الأكاديمية</span>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left-side">
+                    <button class="header-icon-btn sidebar-toggle" id="sidebarToggle"><i class="fa-solid fa-bars-staggered"></i></button>
+                    <div class="header-search">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearchInput" placeholder="ابحث في كادر مدارس المدينة الأكاديمية...">
+                    </div>
+                </div>
+                <div class="header-right-side">
+                    <button class="btn btn-primary btn-sm" onclick="UIManager.openAddTeacherModal()"><i class="fa-solid fa-user-plus"></i> إضافة معلم جديد</button>
+                    <button class="header-icon-btn" onclick="AuthManager.logout()" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header">
+                    <div class="page-title-box">
+                        <div class="breadcrumb">
+                            <a href="../index.html">الرئيسية</a>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <span class="active-crumb">كادر معلمي مدارس المدينة الأكاديمية</span>
+                        </div>
+                        <h1 class="page-title">دليل ومعلمو مدارس المدينة الأكاديمية 👨‍🏫</h1>
+                        <p class="page-description">إدارة ومتابعة السجلات الأكاديمية والتخصصات ومعدلات الأداء لكافة الهيئة التعليمية بالمجمع.</p>
+                    </div>
+
+                    <div class="page-actions">
+                        <button class="btn btn-primary" onclick="UIManager.openAddTeacherModal()">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>إضافة معلم جديد</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="filter-pills-container">
+                    <button class="pill-btn active" data-filter="all" onclick="filterTeachersByBranch('all', this)">كافة الأقسام (<span id="countPillAll">142</span>)</button>
+                    <button class="pill-btn" data-filter="ثانوي بنين" onclick="filterTeachersByBranch('ثانوي بنين', this)">ثانوي بنين</button>
+                    <button class="pill-btn" data-filter="ثانوي بنات" onclick="filterTeachersByBranch('ثانوي بنات', this)">ثانوي بنات</button>
+                    <button class="pill-btn" data-filter="المسار الدولي" onclick="filterTeachersByBranch('المسار الدولي', this)">المسار الدولي (International)</button>
+                    <button class="pill-btn" data-filter="متوسط بنين" onclick="filterTeachersByBranch('متوسط بنين', this)">متوسط بنين</button>
+                    <button class="pill-btn" data-filter="متوسط بنات" onclick="filterTeachersByBranch('متوسط بنات', this)">متوسط بنات</button>
+                    <button class="pill-btn" data-filter="ابتدائي" onclick="filterTeachersByBranch('ابتدائي', this)">القسم الابتدائي</button>
+                </div>
+
+                <div class="section-toolbar">
+                    <div class="table-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="teacherSearchInput" placeholder="ابحث بالاسم أو التخصص أو الكود..." oninput="UIManager.teacherSearchQuery = this.value.toLowerCase(); UIManager.renderTeachersGrid();">
+                    </div>
+                </div>
+
+                <!-- Teachers Cards Grid -->
+                <div class="teachers-grid" id="teachersCardsContainer"></div>
+            </main>
+        </div>
+
+        <!-- Modals and Toasts -->
+        <div class="modal-overlay" id="addTeacherModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-user-plus"></i></div>
+                        <div>
+                            <h2 class="modal-title">إضافة معلم جديد لكادر المدينة الأكاديمية</h2>
+                            <p class="modal-subtitle">تسجيل معلم جديد ضمن الهيئة التعليمية لأحد أقسام المجمع.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="addTeacherForm">
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="form-group col-12">
+                                <label class="form-label required">اسم المعلم رباعياً</label>
+                                <input type="text" id="newTeacherName" class="form-control" required placeholder="أ. إبراهيم بن صالح المنصور">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">المادة والتخصص</label>
+                                <input type="text" id="newTeacherSubject" class="form-control" required placeholder="الرياضيات المتقدمة">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">القسم / المرحلة</label>
+                                <select id="newTeacherBranch" class="form-control" required>
+                                    <option value="المدينة الأكاديمية - ثانوي (بنين)" selected>ثانوي بنين</option>
+                                    <option value="المدينة الأكاديمية - ثانوي (بنات)">ثانوي بنات</option>
+                                    <option value="المدينة الأكاديمية - المسار الدولي">المسار الدولي</option>
+                                    <option value="المدينة الأكاديمية - متوسط (بنين)">متوسط بنين</option>
+                                    <option value="المدينة الأكاديمية - متوسط (بنات)">متوسط بنات</option>
+                                    <option value="المدينة الأكاديمية - ابتدائي">القسم الابتدائي</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">حفظ بيانات المعلم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="addVisitModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon"><i class="fa-solid fa-calendar-plus"></i></div>
+                        <div>
+                            <h2 class="modal-title">جدولة زيارة إشرافية جديدة</h2>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="addVisitForm">
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="form-group col-12">
+                                <label class="form-label required">اسم المعلم</label>
+                                <select id="teacherSelect" class="form-control" required></select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">القسم</label>
+                                <select id="gradeLevel" class="form-control" required>
+                                    <option value="المدينة الأكاديمية - ثانوي (بنين)">ثانوي بنين</option>
+                                    <option value="المدينة الأكاديمية - ثانوي (بنات)">ثانوي بنات</option>
+                                    <option value="المدينة الأكاديمية - المسار الدولي">المسار الدولي</option>
+                                    <option value="المدينة الأكاديمية - متوسط (بنين)">متوسط بنين</option>
+                                    <option value="المدينة الأكاديمية - متوسط (بنات)">متوسط بنات</option>
+                                    <option value="المدينة الأكاديمية - ابتدائي">ابتدائي</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">تاريخ الزيارة</label>
+                                <input type="date" id="visitDate" class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">الوقت</label>
+                                <input type="time" id="visitTime" class="form-control" value="08:30" required>
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="form-label required">أهداف الزيارة</label>
+                                <textarea id="visitObjectives" class="form-control" rows="2" required placeholder="متابعة تطبيق استراتيجيات التعلم النشط..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">حفظ وتأكيد الزيارة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="evaluationModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-purple"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div>
+                            <h2 class="modal-title">بطاقة التقييم الصفي المعتمدة</h2>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="evalRubricForm">
+                    <div class="modal-body">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label required">المعلم المعني</label>
+                            <select id="evalTeacherSelect" class="form-control" required></select>
+                        </div>
+                        <div class="rubric-items">
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>1. التخطيط والإعداد (20)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="rubricScore1" class="form-control rubric-input" min="0" max="20" value="19" oninput="UIManager.calculateTotalScore()"> / 20</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>2. استراتيجيات التدريس والتعلم النشط (30)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="rubricScore2" class="form-control rubric-input" min="0" max="30" value="28" oninput="UIManager.calculateTotalScore()"> / 30</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>3. إدارة الصف والتفاعل (25)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="rubricScore3" class="form-control rubric-input" min="0" max="25" value="24" oninput="UIManager.calculateTotalScore()"> / 25</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>4. التقويم الصفي والتغذية الراجعة (25)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="rubricScore4" class="form-control rubric-input" min="0" max="25" value="24" oninput="UIManager.calculateTotalScore()"> / 25</div>
+                            </div>
+                        </div>
+                        <div class="score-summary-box">
+                            <div><span class="score-summary-label">الدرجة النهائية:</span><div class="score-summary-val"><span id="evalTotalScore">95</span> / 100</div></div>
+                            <div><span class="rating-badge" id="evalRatingText">ممتاز مرتفع</span></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">اعتماد التقييم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase_client.js"></script>
+    <script src="../js/supabase_service.js"></script>
+
+    <!-- Modular Scripts -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/state.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

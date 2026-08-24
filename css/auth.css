@@ -1,0 +1,448 @@
+/* ==========================================================================
+   مدارس المدينة الأكاديمية - صفحة تسجيل الدخول (Auth Stylesheet)
+   ========================================================================== */
+
+.auth-page-body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 10% 20%, #1e3a8a 0%, #0f172a 90%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+
+/* Geometric / Glowing Background Orbs */
+.auth-bg-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+}
+
+.orb-1 {
+    width: 450px;
+    height: 450px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    top: -100px;
+    right: -100px;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #8b5cf6, #10b981);
+    bottom: -80px;
+    left: -80px;
+    animation: floatOrb 14s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatOrb {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(40px, 30px) scale(1.1); }
+}
+
+/* Auth Container / Main Card */
+.auth-container {
+    width: 100%;
+    max-width: 1080px;
+    min-height: 620px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(37, 99, 235, 0.2);
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+/* Left Side (Visual / Branding Showcase) */
+.auth-showcase {
+    background: linear-gradient(145deg, rgba(30, 58, 138, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+    padding: 3.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-showcase::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.6;
+}
+
+.showcase-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.showcase-logo-box {
+    width: 54px;
+    height: 54px;
+    background: #ffffff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.showcase-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 11px;
+}
+
+.showcase-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.showcase-title span {
+    color: #60a5fa;
+}
+
+.showcase-subtitle {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.showcase-content {
+    margin: 2.5rem 0;
+    z-index: 2;
+}
+
+.showcase-headline {
+    font-size: 1.85rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.showcase-headline span {
+    background: linear-gradient(135deg, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.showcase-text {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+.showcase-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+}
+
+.showcase-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #e2e8f0;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.feature-check {
+    width: 24px;
+    height: 24px;
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.showcase-footer-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.showcase-stat-item strong {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: block;
+}
+
+.showcase-stat-item span {
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+/* Right Side (Interactive Login Form) */
+.auth-form-side {
+    padding: 3.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(15, 23, 42, 0.65);
+}
+
+.auth-form-header {
+    margin-bottom: 2rem;
+}
+
+.form-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+}
+
+.form-subtitle {
+    font-size: 0.88rem;
+    color: #94a3b8;
+}
+
+/* Input Fields inside Auth */
+.auth-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.auth-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.auth-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-icon {
+    position: absolute;
+    right: 1.15rem;
+    color: #64748b;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+
+.auth-input {
+    width: 100%;
+    height: 48px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 0 3rem 0 3rem;
+    font-size: 0.92rem;
+    color: #ffffff;
+    transition: all 0.25s ease;
+}
+
+.auth-input:focus {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+}
+
+.auth-input:focus + .auth-input-icon {
+    color: #3b82f6;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    left: 1rem;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0.25rem;
+    transition: color 0.2s;
+}
+
+.toggle-password-btn:hover {
+    color: #e2e8f0;
+}
+
+/* Helper Row: Remember Me & Forgot Password */
+.auth-helpers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.forgot-link {
+    font-size: 0.82rem;
+    color: #60a5fa;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+/* Login Submit Button */
+.auth-submit-btn {
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    transition: all 0.25s ease;
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.55);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Alternative Login / Nafath SSO & Demo */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: #64748b;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.auth-divider span {
+    padding: 0 0.85rem;
+}
+
+.auth-sso-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-nafath {
+    width: 100%;
+    height: 46px;
+    background-color: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34d399;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-nafath:hover {
+    background-color: rgba(16, 185, 129, 0.22);
+    border-color: #34d399;
+}
+
+.btn-demo-fill {
+    width: 100%;
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: #94a3b8;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-demo-fill:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: #60a5fa;
+}
+
+/* Alert inside Login */
+.auth-alert {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+    .auth-container {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+    }
+    .auth-showcase {
+        display: none;
+    }
+    .auth-form-side {
+        padding: 2.5rem 2rem;
+    }
+}

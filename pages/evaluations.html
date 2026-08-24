@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقييمات وبطاقات الأداء | مدارس المدينة الأكاديمية</title>
+    
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="app-layout" id="appLayout">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-container">
+                    <img src="../assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="brand-logo-img">
+                </div>
+                <div class="brand-info">
+                    <h2 class="brand-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="brand-subtitle">Academic City Schools</span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sidebar-menu-wrapper">
+                <div class="menu-category">القائمة الرئيسية</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="../index.html#dashboard" class="menu-link"><i class="fa-solid fa-chart-pie menu-icon"></i><span class="menu-text">الرئيسية</span></a></li>
+                    <li class="menu-item"><a href="teachers.html" class="menu-link"><i class="fa-solid fa-chalkboard-user menu-icon"></i><span class="menu-text">المعلمون</span><span class="menu-count" id="sidebarTeacherCount">142</span></a></li>
+                    <li class="menu-item"><a href="visits.html" class="menu-link"><i class="fa-solid fa-calendar-check menu-icon"></i><span class="menu-text">الزيارات المجدولة</span><span class="menu-badge badge-warning" id="sidebarVisitBadge">8 اليوم</span></a></li>
+                    <li class="menu-item"><a href="evaluations.html" class="menu-link active"><i class="fa-solid fa-clipboard-list menu-icon"></i><span class="menu-text">التقييمات</span><span class="menu-count" id="sidebarEvalCount">24</span></a></li>
+                </ul>
+                <div class="menu-category">الإدارة والمتابعة</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="reports.html" class="menu-link"><i class="fa-solid fa-chart-line menu-icon"></i><span class="menu-text">التقارير والإحصائيات</span></a></li>
+                    <li class="menu-item"><a href="schools.html" class="menu-link"><i class="fa-solid fa-school menu-icon"></i><span class="menu-text">أقسام ومراحل المدارس</span></a></li>
+                    <li class="menu-item"><a href="settings.html" class="menu-link"><i class="fa-solid fa-gear menu-icon"></i><span class="menu-text">الإعدادات</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="supervisor-card">
+                    <div class="supervisor-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="المشرف"><span class="status-dot"></span></div>
+                    <div class="supervisor-info"><h4 class="supervisor-name" id="sidebarSupervisorName">د. فرج دنيا</h4><span class="supervisor-role">المشرف المقيم - المدينة الأكاديمية</span></div>
+                    <button class="logout-btn" id="logoutBtn" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left-side">
+                    <button class="header-icon-btn sidebar-toggle" id="sidebarToggle"><i class="fa-solid fa-bars-staggered"></i></button>
+                    <div class="header-search">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearchInput" placeholder="ابحث في تقييمات المدينة الأكاديمية...">
+                    </div>
+                </div>
+                <div class="header-right-side">
+                    <button class="btn btn-primary btn-sm" onclick="UIManager.openEvaluationModal()"><i class="fa-solid fa-clipboard-check"></i> تقييم جديد</button>
+                    <button class="header-icon-btn" onclick="AuthManager.logout()" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header">
+                    <div class="page-title-box">
+                        <div class="breadcrumb">
+                            <a href="../index.html">الرئيسية</a>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <span class="active-crumb">بطاقات التقييم ومعايير الجودة</span>
+                        </div>
+                        <h1 class="page-title">سجل التقييمات وبطاقات الأداء 📋</h1>
+                        <p class="page-description">توثيق بنود تقييم المعلمين واعتماد بطاقات الزيارات الصفية وفق معايير هيئة تقويم التعليم والتدريب.</p>
+                    </div>
+
+                    <div class="page-actions">
+                        <button class="btn btn-primary" onclick="UIManager.openEvaluationModal()">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            <span>تقييم زيارة جديدة (بطاقة المعايير)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="eval-metrics-grid">
+                    <div class="eval-metric-card"><div class="metric-icon bg-emerald-light"><i class="fa-solid fa-star"></i></div><div><span class="metric-title">أعلى قسم أداءً</span><h4 class="metric-value">ثانوي بنين (94.2%)</h4></div></div>
+                    <div class="eval-metric-card"><div class="metric-icon bg-blue-light"><i class="fa-solid fa-chart-simple"></i></div><div><span class="metric-title">معدل التخطيط والتحضير</span><h4 class="metric-value">95.8%</h4></div></div>
+                    <div class="eval-metric-card"><div class="metric-icon bg-purple-light"><i class="fa-solid fa-brain"></i></div><div><span class="metric-title">استراتيجيات التعلم النشط</span><h4 class="metric-value">89.4%</h4></div></div>
+                </div>
+
+                <!-- Evaluations Table -->
+                <div class="content-card">
+                    <div class="table-header">
+                        <h3 class="table-title">قائمة بطاقات التقييم الإشرافي المعتمدة</h3>
+                        <div class="table-controls">
+                            <input type="text" id="evalSearchInput" class="form-control" placeholder="بحث بالمعلم أو المادة..." oninput="searchEvaluations()">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم البطاقة</th>
+                                    <th>المعلم المعني</th>
+                                    <th>المادة والقسم</th>
+                                    <th>تاريخ الزيارة</th>
+                                    <th>الدرجة النهائية</th>
+                                    <th>التقدير العام</th>
+                                    <th>الحالة</th>
+                                    <th class="text-center">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evaluationsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Evaluation Rubric Modal -->
+        <div class="modal-overlay" id="evaluationModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-purple"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div><h2 class="modal-title">بطاقة التقييم الصفي المعتمدة</h2></div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="evalRubricForm">
+                    <div class="modal-body">
+                        <div class="form-group" style="margin-bottom: 1rem;"><label class="form-label required">المعلم المعني</label><select id="evalTeacherSelect" class="form-control" required></select></div>
+                        <div class="rubric-items">
+                            <div class="rubric-row"><div class="rubric-info"><strong>1. التخطيط والإعداد الكتابي والذهني (20 درجة)</strong></div><div class="rubric-input-box"><input type="number" id="rubricScore1" class="form-control rubric-input" min="0" max="20" value="19" oninput="UIManager.calculateTotalScore()"> / 20</div></div>
+                            <div class="rubric-row"><div class="rubric-info"><strong>2. استراتيجيات التدريس والتعلم النشط (30 درجة)</strong></div><div class="rubric-input-box"><input type="number" id="rubricScore2" class="form-control rubric-input" min="0" max="30" value="28" oninput="UIManager.calculateTotalScore()"> / 30</div></div>
+                            <div class="rubric-row"><div class="rubric-info"><strong>3. إدارة الصف وجذب انتباه الطلاب (25 درجة)</strong></div><div class="rubric-input-box"><input type="number" id="rubricScore3" class="form-control rubric-input" min="0" max="25" value="24" oninput="UIManager.calculateTotalScore()"> / 25</div></div>
+                            <div class="rubric-row"><div class="rubric-info"><strong>4. التقويم الصفي والتغذية الراجعة (25 درجة)</strong></div><div class="rubric-input-box"><input type="number" id="rubricScore4" class="form-control rubric-input" min="0" max="25" value="24" oninput="UIManager.calculateTotalScore()"> / 25</div></div>
+                        </div>
+                        <div class="score-summary-box">
+                            <div><span class="score-summary-label">الدرجة النهائية:</span><div class="score-summary-val"><span id="evalTotalScore">95</span> / 100</div></div>
+                            <div><span class="rating-badge" id="evalRatingText">ممتاز مرتفع</span></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">اعتماد التقييم وحفظ البطاقة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase_client.js"></script>
+    <script src="../js/supabase_service.js"></script>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/state.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

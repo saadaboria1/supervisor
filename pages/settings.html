@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات المنظومة | مدارس المدينة الأكاديمية</title>
+    
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="app-layout" id="appLayout">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-container">
+                    <img src="../assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="brand-logo-img">
+                </div>
+                <div class="brand-info">
+                    <h2 class="brand-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="brand-subtitle">Academic City Schools</span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sidebar-menu-wrapper">
+                <div class="menu-category">القائمة الرئيسية</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="../index.html#dashboard" class="menu-link"><i class="fa-solid fa-chart-pie menu-icon"></i><span class="menu-text">الرئيسية</span></a></li>
+                    <li class="menu-item"><a href="teachers.html" class="menu-link"><i class="fa-solid fa-chalkboard-user menu-icon"></i><span class="menu-text">المعلمون</span><span class="menu-count" id="sidebarTeacherCount">142</span></a></li>
+                    <li class="menu-item"><a href="visits.html" class="menu-link"><i class="fa-solid fa-calendar-check menu-icon"></i><span class="menu-text">الزيارات المجدولة</span><span class="menu-badge badge-warning" id="sidebarVisitBadge">8 اليوم</span></a></li>
+                    <li class="menu-item"><a href="evaluations.html" class="menu-link"><i class="fa-solid fa-clipboard-list menu-icon"></i><span class="menu-text">التقييمات</span><span class="menu-count" id="sidebarEvalCount">24</span></a></li>
+                </ul>
+                <div class="menu-category">الإدارة والمتابعة</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="reports.html" class="menu-link"><i class="fa-solid fa-chart-line menu-icon"></i><span class="menu-text">التقارير والإحصائيات</span></a></li>
+                    <li class="menu-item"><a href="schools.html" class="menu-link"><i class="fa-solid fa-school menu-icon"></i><span class="menu-text">أقسام ومراحل المدارس</span></a></li>
+                    <li class="menu-item"><a href="settings.html" class="menu-link active"><i class="fa-solid fa-gear menu-icon"></i><span class="menu-text">الإعدادات</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="supervisor-card">
+                    <div class="supervisor-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="المشرف"><span class="status-dot"></span></div>
+                    <div class="supervisor-info"><h4 class="supervisor-name" id="sidebarSupervisorName">د. فرج دنيا</h4><span class="supervisor-role">المشرف المقيم - المدينة الأكاديمية</span></div>
+                    <button class="logout-btn" id="logoutBtn" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left-side">
+                    <button class="header-icon-btn sidebar-toggle" id="sidebarToggle"><i class="fa-solid fa-bars-staggered"></i></button>
+                    <div class="header-search">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearchInput" placeholder="بحث في الإعدادات...">
+                    </div>
+                </div>
+                <div class="header-right-side">
+                    <button class="btn btn-primary btn-sm" onclick="savePlatformSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات</button>
+                    <button class="header-icon-btn" onclick="AuthManager.logout()" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header">
+                    <div class="page-title-box">
+                        <div class="breadcrumb">
+                            <a href="../index.html">الرئيسية</a>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <span class="active-crumb">إعدادات المنظومة وتفضيلات الإشراف</span>
+                        </div>
+                        <h1 class="page-title">إعدادات منظومة الإشراف التربوي ⚙️</h1>
+                        <p class="page-description">تخصيص معايير التقييم، بيانات المشرف المقيم، وإعدادات الإشعارات لمدارس المدينة الأكاديمية.</p>
+                    </div>
+
+                    <div class="page-actions">
+                        <button class="btn btn-primary" onclick="savePlatformSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات</button>
+                    </div>
+                </div>
+
+                <div class="settings-layout">
+                    <!-- Supabase Cloud Integration Card -->
+                    <div class="content-card settings-card" style="border-top: 4px solid #3b82f6;">
+                        <div class="card-header-flex" style="margin-bottom: 1rem;">
+                            <div>
+                                <h3 class="settings-card-title"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> الربط السحابي وقاعدة البيانات (Supabase PostgreSQL)</h3>
+                                <p class="text-xs text-muted" style="margin-top: 0.25rem;">ربط مباشر مع قاعدة بيانات سوبابيز لحفظ ومزامنة خطط المعلمين والزيارات وتقارير التقييم بشكل سحابي فوري.</p>
+                            </div>
+                            <span class="supabase-status-badge badge badge-info" id="settingSupabaseBadge"><i class="fa-solid fa-database"></i> وضع التخزين المحلي الافتراضي</span>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group col-6">
+                                <label class="form-label required">عنوان مشروع سوبابيز (Project URL)</label>
+                                <input type="text" id="settingSupabaseUrl" class="form-control" placeholder="https://your-project-id.supabase.co" value="https://cxcawkqtbwcorrmpdmlj.supabase.co" dir="ltr">
+                                <span class="text-xs text-muted">تم استخراجه من لوحة تحكم مشروعك</span>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">مفتاح الوصول العام (Anon / Publishable Key)</label>
+                                <input type="password" id="settingSupabaseKey" class="form-control" placeholder="sb_publishable_..." value="sb_publishable_PlMp4cZYNLGEkAZYfRjFJQ_ahy59e6h" dir="ltr">
+                                <span class="text-xs text-muted">مفتاح الوصول الآمن المعتمد للمتصفح</span>
+                            </div>
+                            <div class="form-group col-12">
+                                <div style="background: rgba(59, 130, 246, 0.05); border: 1px dashed rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                        <i class="fa-solid fa-circle-info text-primary"></i>
+                                        <span class="text-xs">تم إنشاء سكريبت التهيئة الشامل <strong>supabase_schema.sql</strong> داخل مجلد المشروع، جاهز للتشغيل في SQL Editor.</span>
+                                    </div>
+                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                        <button type="button" class="btn btn-outline btn-sm" id="testSupabaseBtn" onclick="testSupabaseConnection()">
+                                            <i class="fa-solid fa-plug"></i>
+                                            <span>فحص واختبار الاتصال</span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-sm" id="syncSupabaseBtn" onclick="syncToSupabaseCloud()">
+                                            <i class="fa-solid fa-arrows-rotate"></i>
+                                            <span>رفع ومزامنة البيانات الحالية (Seed Sync)</span>
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="saveSupabaseConfig()">
+                                            <i class="fa-solid fa-floppy-disk"></i>
+                                            <span>حفظ وتفعيل المفاتيح</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Card Settings -->
+                    <div class="content-card settings-card">
+                        <div class="card-header-flex" style="margin-bottom: 1rem;">
+                            <h3 class="settings-card-title"><i class="fa-solid fa-id-card"></i> بيانات المشرف التربوي المقيم</h3>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="saveSupervisorProfile()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>تأكيد وحفظ بيانات المشرف</span>
+                            </button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group col-6">
+                                <label class="form-label">الاسم الكامل للمشرف</label>
+                                <input type="text" id="settingSupervisorName" class="form-control" value="د. فرج دنيا">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">المسمى والصفة الإشرافية</label>
+                                <input type="text" id="settingSupervisorTitle" class="form-control" value="المشرف التربوي المقيم - مدارس المدينة الأكاديمية">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">البريد الإلكتروني الرسمي</label>
+                                <input type="email" id="settingSupervisorEmail" class="form-control" value="f.donia@academiccity.edu.sa">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">رقم التواصل المعتمد</label>
+                                <input type="tel" id="settingSupervisorPhone" class="form-control" value="+966 50 123 4567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Supervision Criteria Weights -->
+                    <div class="content-card settings-card">
+                        <div class="card-header-flex" style="margin-bottom: 1rem;">
+                            <h3 class="settings-card-title"><i class="fa-solid fa-sliders"></i> أوزان ومعايير بطاقة التقييم الصفي (100%)</h3>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="saveCriteriaWeights()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>تأكيد وحفظ أوزان المعايير</span>
+                            </button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group col-6">
+                                <label class="form-label">وزن التخطيط والتحضير الكتابي (%)</label>
+                                <input type="number" id="settingWeightPlanning" class="form-control" value="20" min="0" max="100">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">وزن استراتيجيات التدريس والتعلم النشط (%)</label>
+                                <input type="number" id="settingWeightTeaching" class="form-control" value="30" min="0" max="100">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">وزن إدارة الصف والتفاعل الطلابي (%)</label>
+                                <input type="number" id="settingWeightClassroom" class="form-control" value="25" min="0" max="100">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label">وزن أساليب التقويم الصفي والتغذية الراجعة (%)</label>
+                                <input type="number" id="settingWeightAssessment" class="form-control" value="25" min="0" max="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="content-card settings-card">
+                        <div class="card-header-flex" style="margin-bottom: 1rem;">
+                            <h3 class="settings-card-title"><i class="fa-solid fa-bell"></i> تفضيلات الإشعارات والتنبيهات الفورية</h3>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="saveNotificationPreferences()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>تأكيد وحفظ تفضيلات التنبيهات</span>
+                            </button>
+                        </div>
+                        <div class="settings-toggles">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="notifReminderToggle" checked>
+                                <span class="custom-checkbox"></span>
+                                <span class="checkbox-label">إرسال إشعار تذكيري فوري للمعلم قبل موعد الزيارة بـ 24 ساعة</span>
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="notifDeptToggle" checked>
+                                <span class="custom-checkbox"></span>
+                                <span class="checkbox-label">إشعار إدارة قسم المدينة الأكاديمية المعني فور اعتماد تقرير الزيارة</span>
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" checked>
+                                <span class="custom-checkbox"></span>
+                                <span class="checkbox-label">تنبيه المشرف بالتقارير المعلقة التي تتجاوز مهلة الاعتماد (48 ساعة)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase_client.js"></script>
+    <script src="../js/supabase_service.js"></script>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/state.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof UIManager !== 'undefined' && UIManager.renderSupabaseSettings) {
+                UIManager.renderSupabaseSettings();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | منظومة الإشراف التربوي - مدارس المدينة الأكاديمية</title>
+    
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    
+    <!-- Google Fonts: Cairo & Tajawal for modern Arabic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Auth Custom Stylesheet -->
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page-body">
+
+    <!-- Ambient Background Light Orbs -->
+    <div class="auth-bg-decor">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Main Auth Glassmorphism Container -->
+    <div class="auth-container">
+        
+        <!-- Left Showcase Side (Institution Overview) -->
+        <div class="auth-showcase">
+            <div class="showcase-brand">
+                <div class="showcase-logo-box">
+                    <img src="assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="showcase-logo-img">
+                </div>
+                <div>
+                    <h2 class="showcase-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="showcase-subtitle">Academic City Schools</span>
+                </div>
+            </div>
+
+            <div class="showcase-content">
+                <h1 class="showcase-headline">
+                    منظومة التميز والإشراف الذكي لـ <span>مدارس المدينة الأكاديمية</span>
+                </h1>
+                <p class="showcase-text">
+                    بوابة موحدة لإدارة الزيارات الصفية، تقييم الأداء الأكاديمي، ومتابعة جودة المخرجات التعليمية عبر كافة المراحل والمسارات (الوطني والدولي).
+                </p>
+
+                <div class="showcase-features">
+                    <div class="showcase-feature-item">
+                        <span class="feature-check"><i class="fa-solid fa-check"></i></span>
+                        <span>متابعة لحظية ومؤشرات أداء متوافقة مع معايير هيئة التقويم</span>
+                    </div>
+                    <div class="showcase-feature-item">
+                        <span class="feature-check"><i class="fa-solid fa-check"></i></span>
+                        <span>جدولة ذكية للزيارات الصفية وبطاقات التقييم الرقمية</span>
+                    </div>
+                    <div class="showcase-feature-item">
+                        <span class="feature-check"><i class="fa-solid fa-check"></i></span>
+                        <span>تقارير تحليلية موحدة لكافة فروع وأقسام المجمع التعليمي</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-footer-stats">
+                <div class="showcase-stat-item">
+                    <strong>142</strong>
+                    <span>معلماً ومعلمة</span>
+                </div>
+                <div class="showcase-stat-item">
+                    <strong>6</strong>
+                    <span>أقسام ومراحل</span>
+                </div>
+                <div class="showcase-stat-item">
+                    <strong>91.4%</strong>
+                    <span>معدل الجودة العام</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side (Interactive Login Form) -->
+        <div class="auth-form-side">
+            <div class="auth-form-header">
+                <h2 class="form-title">تسجيل الدخول للمنظومة 👋</h2>
+                <p class="form-subtitle">أدخل بيانات المشرف التربوي للوصول إلى لوحة المتابعة</p>
+            </div>
+
+            <!-- Error alert message container -->
+            <div class="auth-alert" id="loginAlert" style="display: none;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="loginAlertText">بيانات الدخول غير صحيحة. يرجى المحاولة مجدداً.</span>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLoginSubmit(event)" novalidate>
+                
+                <!-- Email or National ID Input -->
+                <div class="auth-group">
+                    <label for="loginEmail" class="auth-label">البريد الأكاديمي أو السجل المدني</label>
+                    <div class="auth-input-wrapper">
+                        <input type="text" id="loginEmail" class="auth-input" placeholder="name@academiccity.edu.sa أو 1088XXXXXX" required value="f.donia@academiccity.edu.sa">
+                        <i class="fa-solid fa-user-tie auth-input-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div class="auth-group">
+                    <label for="loginPassword" class="auth-label">كلمة المرور</label>
+                    <div class="auth-input-wrapper">
+                        <input type="password" id="loginPassword" class="auth-input" placeholder="••••••••" required value="123456">
+                        <i class="fa-solid fa-lock auth-input-icon"></i>
+                        <button type="button" class="toggle-password-btn" id="togglePasswordBtn" aria-label="إظهار كلمة المرور">
+                            <i class="fa-regular fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="auth-helpers">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMeCheckbox" checked>
+                        <span class="custom-checkbox"></span>
+                        <span class="checkbox-label" style="color: #cbd5e1;">تذكر بيانات الدخول</span>
+                    </label>
+                    <a href="javascript:void(0)" class="forgot-link" onclick="handleForgotPass()">نسيت كلمة المرور؟</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span id="loginBtnText">الدخول إلى المنظومة</span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>أو الدخول المعتمد عبر</span>
+                </div>
+
+                <!-- SSO / Nafath & Quick Demo Fill -->
+                <div class="auth-sso-btns">
+                    <button type="button" class="btn-nafath" onclick="handleNafathLogin()">
+                        <i class="fa-solid fa-fingerprint"></i>
+                        <span>الدخول بالنفاذ الوطني الموحد (نفاذ)</span>
+                    </button>
+
+                    <button type="button" class="btn-demo-fill" onclick="handleQuickDemo()">
+                        <i class="fa-solid fa-sparkles" style="color: #fbbf24;"></i>
+                        <span>دخول تجريبي فوري (حساب د. فرج دنيا - المشرف المقيم)</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase_client.js"></script>
+    <script src="js/supabase_service.js"></script>
+
+    <!-- Auth Script -->
+    <script src="js/auth.js"></script>
+    <script>
+        // Init guard to redirect if already logged in
+        AuthManager.initAuthGuard(true);
+
+        // Toggle password visibility
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const passwordInput = document.getElementById('loginPassword');
+        const passwordIcon = document.getElementById('passwordIcon');
+
+        togglePasswordBtn?.addEventListener('click', () => {
+            const isPass = passwordInput.type === 'password';
+            passwordInput.type = isPass ? 'text' : 'password';
+            passwordIcon.className = isPass ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+        });
+
+        // Form Submission
+        async function handleLoginSubmit(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('loginAlert');
+            const alertText = document.getElementById('loginAlertText');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            const btnText = document.getElementById('loginBtnText');
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMeCheckbox').checked;
+
+            alertBox.style.display = 'none';
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق من الصلاحيات...';
+
+            try {
+                await AuthManager.login(email, pass, rememberMe);
+                btnText.innerHTML = '<i class="fa-solid fa-check"></i> تم الدخول بنجاح!';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 400);
+            } catch (err) {
+                alertBox.style.display = 'flex';
+                alertText.textContent = err.message || 'بيانات الدخول غير صحيحة';
+                submitBtn.disabled = false;
+                btnText.textContent = 'الدخول إلى المنظومة';
+            }
+        }
+
+        async function handleQuickDemo() {
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            const btnText = document.getElementById('loginBtnText');
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري تسجيل الدخول بحساب المشرف...';
+
+            await AuthManager.quickDemoLogin();
+            window.location.href = 'index.html';
+        }
+
+        function handleNafathLogin() {
+            alert('تم التوجيه إلى بوابة النفاذ الوطني الموحد (نفاذ)... جاري اعتماد الهوية الرقمية.');
+            handleQuickDemo();
+        }
+
+        function handleForgotPass() {
+            alert('تم إرسال رابط استعادة كلمة المرور إلى البريد الأكاديمي المعتمد من إدارة مدارس المدينة الأكاديمية.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظومة الإشراف التربوي الذكي | مدارس المدينة الأكاديمية</title>
+
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- Google Fonts: Cairo & Tajawal for modern Arabic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome 6 Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart.js CDN for High-Definition Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Master Design System Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-layout" id="appLayout">
+
+        <!-- Mobile Sidebar Backdrop -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- ==========================================
+             SIDEBAR NAVIGATION COMPONENT
+             ========================================== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-container">
+                    <img src="assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="brand-logo-img">
+                </div>
+                <div class="brand-info">
+                    <h2 class="brand-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="brand-subtitle">Academic City Schools</span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="إغلاق القائمة">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-menu-wrapper">
+
+                <div class="menu-category">دورة الإشراف والمتابعة</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item">
+                        <a href="#dashboard" class="menu-link active" data-view="dashboard">
+                            <i class="fa-solid fa-gauge-high menu-icon"></i>
+                            <span class="menu-text">لوحة القيادة الإشرافية</span>
+                            <span class="menu-badge badge-danger" id="sidebarAlertBadge">إنذار مبكر</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#weekly-plans" class="menu-link" data-view="weekly-plans">
+                            <i class="fa-solid fa-calendar-week menu-icon"></i>
+                            <span class="menu-text">مراجعة الخطط الأسبوعية</span>
+                            <span class="menu-badge badge-warning" id="sidebarPlanCount">بانتظار المراجعة</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#observations" class="menu-link" data-view="observations">
+                            <i class="fa-solid fa-clipboard-check menu-icon"></i>
+                            <span class="menu-text">الملاحظة والزيارات الصفية</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#actions" class="menu-link" data-view="actions">
+                            <i class="fa-solid fa-bullseye-arrow menu-icon"></i>
+                            <span class="menu-text">خطط وإجراءات التحسين</span>
+                            <span class="menu-count" id="sidebarActionsCount">3</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#teachers" class="menu-link" data-view="teachers">
+                            <i class="fa-solid fa-chalkboard-user menu-icon"></i>
+                            <span class="menu-text">كادر المعلمين (الملف 360°)</span>
+                            <span class="menu-count" id="sidebarTeacherCount">142</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="menu-category">التقارير والمجمعات</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item">
+                        <a href="#reports" class="menu-link" data-view="reports">
+                            <i class="fa-solid fa-chart-line menu-icon"></i>
+                            <span class="menu-text">التقارير والمؤشرات الذكية</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#schools" class="menu-link" data-view="schools">
+                            <i class="fa-solid fa-school menu-icon"></i>
+                            <span class="menu-text">أقسام ومراحل المدارس</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#settings" class="menu-link" data-view="settings">
+                            <i class="fa-solid fa-gear menu-icon"></i>
+                            <span class="menu-text">الإعدادات وتكامل الأنظمة</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Integrations Badge Box in Sidebar -->
+                <div class="sidebar-integrations-box">
+                    <div class="integration-item">
+                        <i class="fa-solid fa-database text-info"></i>
+                        <span>قاعدة البيانات: <span class="supabase-status-badge badge badge-info">محلي /
+                                Supabase</span></span>
+                    </div>
+                    <div class="integration-item">
+                        <i class="fa-brands fa-microsoft text-primary"></i>
+                        <span>OneDrive: متصل (الخطط والشواهد)</span>
+                    </div>
+                    <div class="integration-item">
+                        <i class="fa-solid fa-graduation-cap text-success"></i>
+                        <span>Classera: متصل (الواجبات والمقررات)</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar Footer: Logged-in Supervisor Profile -->
+            <div class="sidebar-footer">
+                <div class="supervisor-card">
+                    <div class="supervisor-avatar">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                            alt="صورة المشرف" id="sidebarSupervisorImg">
+                        <span class="status-dot"></span>
+                    </div>
+                    <div class="supervisor-info">
+                        <h4 class="supervisor-name" id="sidebarSupervisorName">د. فرج دنيا</h4>
+                        <span class="supervisor-role" id="currentRoleBadge">المشرف التربوي المقيم</span>
+                    </div>
+                    <button class="logout-btn" title="تسجيل الخروج" id="logoutBtn">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==========================================
+             MAIN CONTENT WRAPPER
+             ========================================== -->
+        <div class="main-wrapper">
+
+            <!-- ==========================================
+                 TOP STICKY HEADER
+                 ========================================== -->
+            <header class="top-header" id="topHeader">
+                <div class="header-left-side">
+                    <!-- Sidebar Hamburger Toggle -->
+                    <button class="header-icon-btn sidebar-toggle" id="sidebarToggle"
+                        aria-label="تبديل القائمة الجانبية">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </button>
+
+                    <!-- Search Input Box -->
+                    <div class="header-search">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearchInput"
+                            placeholder="ابحث في مدارس المدينة الأكاديمية (معلم، خطة، شاهد، قسم)..."
+                            aria-label="بحث عام">
+                        <kbd class="search-shortcut">⌘K</kbd>
+                    </div>
+                </div>
+
+                <div class="header-right-side">
+
+                    <!-- Role Switcher (Simulate Roles) -->
+                    <div class="role-switcher-box">
+                        <label for="roleSwitcherSelect" class="text-xs text-muted"><i class="fa-solid fa-user-gear"></i>
+                            تبديل الصلاحية:</label>
+                        <select id="roleSwitcherSelect" class="role-select">
+                            <option value="supervisor" selected>المشرف التربوي</option>
+                            <option value="teacher">المعلم (عرض تجريبي)</option>
+                            <option value="academic_leader">الوكيل الأكاديمي</option>
+                            <option value="principal">مدير المدرسة</option>
+                            <option value="admin">مسؤول النظام</option>
+                        </select>
+                    </div>
+
+                    <!-- Export Campus Report Button -->
+                    <button class="btn btn-primary btn-sm" onclick="openCampusFullReportModal()"
+                        title="تصدير تقرير المجمع الشامل الفعلي">
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <span>تصدير تقرير المجمع</span>
+                    </button>
+
+                    <!-- AI Assistant Trigger -->
+                    <button class="btn btn-outline btn-sm" onclick="openAIWeeklySummaryModal()"
+                        title="المساعد الإشرافي الذكي">
+                        <i class="fa-solid fa-wand-magic-sparkles text-primary"></i>
+                        <span>ملخص AI الأسبوعي</span>
+                    </button>
+
+                    <!-- Global Save & Sync Button -->
+                    <button class="btn btn-outline btn-sm" id="globalSaveSyncBtn" onclick="confirmSaveAllState()"
+                        title="حفظ ومزامنة كافة المتغيرات">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span id="globalSaveBtnText">حفظ وتأكيد المتغيرات</span>
+                    </button>
+
+                    <!-- Quick Action: Add Observation -->
+                    <button class="btn btn-outline btn-sm" onclick="openAddObservationModal()">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>زيارة صفية جديدة</span>
+                    </button>
+
+                    <!-- Notification Bell Dropdown -->
+                    <div class="header-dropdown notification-dropdown" id="notificationDropdown">
+                        <button class="header-icon-btn dropdown-toggle" id="notifToggleBtn" aria-label="التنبيهات">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-badge" id="notifBadge">3</span>
+                        </button>
+                        <div class="dropdown-menu" id="notifMenu">
+                            <div class="dropdown-header">
+                                <h3>تنبيهات الإشراف والمتابعة</h3>
+                                <button class="mark-read-btn" id="markAllReadBtn">تحديد الكل كمقروء</button>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notif-item unread">
+                                    <div class="notif-icon danger"><i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p class="notif-text"><strong>إجراء تحسيني متجاوز للمهلة:</strong> أ. يوسف
+                                            الشهري (المهارات الرقمية) لم يرفع شواهد المعمل.</p>
+                                        <span class="notif-time">منذ ساعتين</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item unread">
+                                    <div class="notif-icon warning"><i class="fa-regular fa-clock"></i></div>
+                                    <div class="notif-content">
+                                        <p class="notif-text"><strong>خطة أسبوعية جديدة:</strong> رفع أ. محمد الدوسري
+                                            خطة الأسبوع 4 بانتظار الاعتماد.</p>
+                                        <span class="notif-time">منذ 4 ساعات</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon success"><i class="fa-solid fa-circle-check"></i></div>
+                                    <div class="notif-content">
+                                        <p class="notif-text"><strong>إغلاق إجراء تحسيني:</strong> تم اعتماد الشواهد
+                                            وإغلاق إجراء أ. ريم العتيبي.</p>
+                                        <span class="notif-time">أمس</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supervisor Profile Dropdown -->
+                    <div class="header-dropdown user-dropdown" id="userDropdown">
+                        <button class="user-profile-btn" id="profileToggleBtn" aria-label="الملف الشخصي">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                                alt="المشرف" class="user-img">
+                            <div class="user-details-header">
+                                <span class="user-name" id="headerSupervisorName">د. فرج دنيا</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                            </div>
+                        </button>
+                        <div class="dropdown-menu user-menu" id="profileMenu">
+                            <div class="user-menu-header">
+                                <h4 class="menu-user-name" id="menuSupervisorName">د. فرج دنيا</h4>
+                                <span class="menu-user-email"
+                                    id="menuSupervisorEmail">f.donia@academiccity.edu.sa</span>
+                            </div>
+                            <ul class="user-menu-links">
+                                <li><a href="javascript:void(0)" onclick="openCampusFullReportModal()"><i
+                                            class="fa-solid fa-file-invoice"></i> تقرير المجمع الشامل</a></li>
+                                <li><a href="javascript:void(0)" onclick="switchTab('settings')"><i
+                                            class="fa-solid fa-user-gear"></i> إعدادات المنظومة</a></li>
+                                <li><a href="javascript:void(0)" onclick="openAIWeeklySummaryModal()"><i
+                                            class="fa-solid fa-wand-magic-sparkles"></i> ملخص الإشراف الذكي (AI)</a>
+                                </li>
+                                <li class="menu-divider"></li>
+                                <li><a href="javascript:void(0)" class="text-danger" onclick="AuthManager.logout()"><i
+                                            class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+
+            <!-- ==========================================
+                 DYNAMIC SPA VIEWS CONTAINER
+                 ========================================== -->
+            <main class="main-content" id="mainContent">
+
+                <!-- ====================================================
+                     VIEW 1: SUPERVISOR DASHBOARD (لوحة القيادة الإشرافية)
+                     ==================================================== -->
+                <section class="view-page active" id="view-dashboard">
+
+                    <!-- Page Header & Welcome Banner -->
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <span class="active-crumb">لوحة القيادة الإشرافية الموحدة</span>
+                            </div>
+                            <h1 class="page-title">مرحباً بك، د. فرج دنيا 👋</h1>
+                            <p class="page-description">المركز الموحد لمتابعة دورة الإشراف التربوي، خطط ون درايف، واجبات
+                                كلاسيرة، والإنذار المبكر للمعلمين.</p>
+                        </div>
+
+                        <div class="page-actions">
+                            <button class="btn btn-primary" onclick="openCampusFullReportModal()">
+                                <i class="fa-solid fa-file-invoice"></i>
+                                <span>تصدير تقرير المجمع الشامل</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="openAIWeeklySummaryModal()">
+                                <i class="fa-solid fa-robot text-primary"></i>
+                                <span>تقرير الإشراف التنفيذي (AI)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Top KPI Summary Cards Ribbon -->
+                    <div class="stats-grid">
+                        <div class="stat-card cursor-pointer" onclick="switchTab('weekly-plans')">
+                            <div class="stat-icon bg-blue-light"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-title">نسبة إنجاز الخطط الأسبوعية</span>
+                                <h3 class="stat-value" id="statPlanCompletionRate">88%</h3>
+                                <span class="stat-badge badge-success"><i class="fa-solid fa-circle-check"></i> مطابقة
+                                    لـ OneDrive</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card cursor-pointer" onclick="switchTab('weekly-plans')">
+                            <div class="stat-icon bg-amber-light"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-title">خطط بانتظار المراجعة</span>
+                                <h3 class="stat-value" id="statPendingPlansCount">1</h3>
+                                <span class="stat-badge badge-warning"><i class="fa-solid fa-hourglass-half"></i> تتطلب
+                                    اعتماد المشرف</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card cursor-pointer" onclick="switchTab('actions')">
+                            <div class="stat-icon bg-purple-light"><i class="fa-solid fa-bullseye-arrow"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-title">خطط التحسين المفتوحة (SMART)</span>
+                                <h3 class="stat-value" id="statOpenActionsCount">2</h3>
+                                <span class="stat-badge badge-info"><i class="fa-solid fa-list-check"></i> قيد المتابعة
+                                    الميدانية</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-card-alert cursor-pointer" onclick="switchTab('teachers')">
+                            <div class="stat-icon bg-red-light"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-title">معلمون بحاجة متابعة عاجلة (🔴)</span>
+                                <h3 class="stat-value text-danger" id="statRedTeachersCount">1</h3>
+                                <span class="stat-badge badge-danger"><i class="fa-solid fa-bell"></i> إنذار مبكر</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Light Early Warning Grid -->
+                    <div class="content-card" style="margin-bottom: 2rem;">
+                        <div class="card-header-flex">
+                            <div>
+                                <h3 class="card-title"><i class="fa-solid fa-traffic-light text-primary"></i> نظام
+                                    الإنذار والمتابعة الإشرافية المبكرة (Traffic Light)</h3>
+                                <p class="card-subtitle">تحديد المعلمين الذين يحتاجون إلى دعم فوري وتوجيه إشرافي بناءً
+                                    على الخطط والزيارات والشواهد</p>
+                            </div>
+                            <div class="traffic-legend">
+                                <span class="traffic-dot dot-green">🟢 مستقر ومتميز ($\ge 90\%$)</span>
+                                <span class="traffic-dot dot-yellow">🟡 بحاجة دعم ومتابعة</span>
+                                <span class="traffic-dot dot-red">🔴 يتطلب تدخلاً ومتابعة عاجلة</span>
+                            </div>
+                        </div>
+
+                        <div class="traffic-grid" id="trafficLightCardsContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid (Weekly Plan Progress & School Quality Radar) -->
+                    <div class="dashboard-charts-grid">
+                        <div class="content-card chart-card">
+                            <div class="card-header-flex">
+                                <div>
+                                    <h3 class="card-title">متابعة إنجاز الخطط الأسبوعية حسب القسم</h3>
+                                    <p class="card-subtitle">مقارنة الخطط المعتمدة بالمستهدف عبر فروع المجمع</p>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="dashboardVisitsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="content-card chart-card">
+                            <div class="card-header-flex">
+                                <div>
+                                    <h3 class="card-title">توزيع مستويات الأداء في الزيارات الصفية</h3>
+                                    <p class="card-subtitle">النسب المئوية لتقييمات معايير التدريس والإدارة الصفية</p>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="dashboardRatingChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 2: WEEKLY PLANS MANAGEMENT (مراجعة الخطط الأسبوعية)
+                     ==================================================== -->
+                <section class="view-page" id="view-weekly-plans">
+
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">مراجعة واعتماد الخطط الأسبوعية</span>
+                            </div>
+                            <h1 class="page-title">إدارة ومراجعة الخطط الأسبوعية (OneDrive & كلاسيرة) 📑</h1>
+                            <p class="page-description">التحقق من اكتمال خطط الدروس، الواجبات، الأهداف السلوكية،
+                                وتكاملها مع شواهد مايكروسوفت ون درايف ومقررات كلاسيرة.</p>
+                        </div>
+                    </div>
+
+                    <!-- Plan Status Filter Pills -->
+                    <div class="filter-pills-container">
+                        <button class="pill-btn active" onclick="filterWeeklyPlans('all', this)">كافة الخطط</button>
+                        <button class="pill-btn" onclick="filterWeeklyPlans('submitted', this)">بانتظار المراجعة (<span
+                                id="countPendingPlans">1</span>)</button>
+                        <button class="pill-btn" onclick="filterWeeklyPlans('needs_revision', this)">تحتاج تعديل (<span
+                                id="countRevisionPlans">1</span>)</button>
+                        <button class="pill-btn" onclick="filterWeeklyPlans('approved', this)">معتمدة ومكتملة</button>
+                    </div>
+
+                    <!-- Plans Table -->
+                    <div class="content-card">
+                        <div class="table-header">
+                            <h3 class="table-title">سجل الخطط الأسبوعية للفصل الدراسي الحالي</h3>
+                            <div class="table-controls">
+                                <div class="table-search-box">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" id="planSearchInput"
+                                        placeholder="بحث بالمعلم أو المادة أو القيمة الشهرية..."
+                                        oninput="UIManager.planSearchQuery = this.value.toLowerCase(); UIManager.renderWeeklyPlans();">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الخطة</th>
+                                        <th>المعلم والمرحلة</th>
+                                        <th>المادة والتخصص</th>
+                                        <th>الأسبوع والتاريخ</th>
+                                        <th>القيمة الشهرية/الأسبوعية</th>
+                                        <th>الحالة</th>
+                                        <th class="text-center">إجراءات المراجعة والأنظمة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weeklyPlansTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 3: CLASSROOM OBSERVATIONS (الملاحظة والزيارات الصفية)
+                     ==================================================== -->
+                <section class="view-page" id="view-observations">
+
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">الملاحظات والزيارات الصفية</span>
+                            </div>
+                            <h1 class="page-title">بطاقات الملاحظة والزيارات الصفية الشاملة 📋</h1>
+                            <p class="page-description">رصد درجات الأداء الصفي (التخطيط 20%، استراتيجيات التدريس 30%،
+                                إدارة الصف 25%، التقويم والتغذية 25%) وتحويل الفجوات لإجراءات تحسين ذكية.</p>
+                        </div>
+
+                        <div class="page-actions">
+                            <button class="btn btn-primary" onclick="openAddObservationModal()">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>توثيق زيارة صفية جديدة</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Observations List Grid -->
+                    <div class="observations-grid" id="observationsCardsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 4: IMPROVEMENT ACTIONS CENTER (خطط وإجراءات التحسين)
+                     ==================================================== -->
+                <section class="view-page" id="view-actions">
+
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">مركز خطط وإجراءات التحسين</span>
+                            </div>
+                            <h1 class="page-title">مركز إدارة خطط وإجراءات التحسين (SMART Actions) 🎯</h1>
+                            <p class="page-description">تحويل ملحوظات الزيارات الصفية إلى مهام علاجية محددة ومقاسة وتتبع
+                                دورة إغلاقها بالتحقق الإشرافي وشواهد ون درايف.</p>
+                        </div>
+
+                        <div class="page-actions">
+                            <button class="btn btn-primary" onclick="openAddActionModal()">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>إضافة إجراء تحسيني جديد</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions Filter Pills -->
+                    <div class="filter-pills-container">
+                        <button class="pill-btn active" onclick="filterActions('all', this)">كافة الإجراءات</button>
+                        <button class="pill-btn" onclick="filterActions('in_progress', this)">قيد التنفيذ</button>
+                        <button class="pill-btn" onclick="filterActions('pending', this)">متجاوزة / بانتظار
+                            المتابعة</button>
+                        <button class="pill-btn" onclick="filterActions('closed_verified', this)">مغلقة ومعتمدة
+                            بالتحقق</button>
+                    </div>
+
+                    <!-- Actions Grid -->
+                    <div class="actions-grid" id="actionsListContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 5: TEACHERS 360° SUPERVISION DIRECTORY (كادر المعلمين)
+                     ==================================================== -->
+                <section class="view-page" id="view-teachers">
+
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">الملف الإشرافي الموحد 360°</span>
+                            </div>
+                            <h1 class="page-title">دليل المعلمين والملف الإشرافي الموحد 👨‍🏫</h1>
+                            <p class="page-description">ملف شامل لكل معلم يدمج خطط ون درايف، نتائج الملاحظات الصفية،
+                                نقاط القوة، خطط التحسين، وروابط كلاسيرة.</p>
+                        </div>
+                    </div>
+
+                    <!-- Filter Pills Container -->
+                    <div class="filter-pills-container">
+                        <button class="pill-btn active" data-filter="all"
+                            onclick="filterTeachersByBranch('all', this)">كافة الأقسام</button>
+                        <button class="pill-btn" data-filter="ثانوي بنين"
+                            onclick="filterTeachersByBranch('ثانوي بنين', this)">ثانوي بنين</button>
+                        <button class="pill-btn" data-filter="المسار الدولي"
+                            onclick="filterTeachersByBranch('المسار الدولي', this)">المسار الدولي (American
+                            Diploma)</button>
+                        <button class="pill-btn" data-filter="ثانوي بنات"
+                            onclick="filterTeachersByBranch('ثانوي بنات', this)">ثانوي بنات</button>
+                        <button class="pill-btn" data-filter="متوسط بنين"
+                            onclick="filterTeachersByBranch('متوسط بنين', this)">متوسط بنين</button>
+                        <button class="pill-btn" data-filter="ابتدائي"
+                            onclick="filterTeachersByBranch('ابتدائي', this)">القسم الابتدائي</button>
+                    </div>
+
+                    <div class="section-toolbar">
+                        <div class="table-search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="teacherSearchInput"
+                                placeholder="ابحث بالاسم أو التخصص أو الكود الوظيفي...">
+                        </div>
+                    </div>
+
+                    <!-- Teachers Grid Cards -->
+                    <div class="teachers-grid" id="teachersCardsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 6: REPORTS & AI ANALYTICS (التقارير والمؤشرات)
+                     ==================================================== -->
+                <section class="view-page" id="view-reports">
+
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">التقارير والتحليلات الإشرافية</span>
+                            </div>
+                            <h1 class="page-title">التقارير الإشرافية ومؤشرات جودة الأداء 📊</h1>
+                            <p class="page-description">تحليل مؤشرات الجودة ومقارنة معايير التقييم بين المراحل والمسار
+                                الدولي وتوليد ملخصات القيادة المدرسية.</p>
+                        </div>
+
+                        <div class="page-actions">
+                            <button class="btn btn-primary" onclick="openCampusFullReportModal()">
+                                <i class="fa-solid fa-file-invoice"></i>
+                                <span>تصدير تقرير المجمع الشامل</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="openAIWeeklySummaryModal()">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>ملخص AI الأسبوعي</span>
+                            </button>
+                            <button class="btn btn-outline" onclick="window.print()"><i class="fa-solid fa-print"></i>
+                                طباعة سريعة</button>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="reports-grid">
+                        <div class="content-card report-chart-box">
+                            <div class="card-header-flex">
+                                <div>
+                                    <h3 class="card-title">مقارنة معايير الجودة بين المسار الوطني والدولي</h3>
+                                    <p class="card-subtitle">الدرجات في التخطيط، التعلم النشط، وإدارة الصف</p>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="height: 320px;">
+                                <canvas id="reportsBranchComparisonChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="content-card report-chart-box">
+                            <div class="card-header-flex">
+                                <div>
+                                    <h3 class="card-title">منحنى التحسن التراكمي في جودة التدريس</h3>
+                                    <p class="card-subtitle">التطور الأسبوعي لمتوسط نتائج الملاحظات الصفية</p>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="height: 320px;">
+                                <canvas id="reportsTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPIs Matrix Table -->
+                    <div class="content-card">
+                        <div class="table-header">
+                            <h3 class="table-title">مصفوفة قياس مؤشرات الإشراف عبر فروع مدارس المدينة الأكاديمية</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>القسم / المرحلة</th>
+                                        <th>الكادر التعليمي</th>
+                                        <th>الخطط المعتمدة</th>
+                                        <th>نسبة تغطية الزيارات</th>
+                                        <th>متوسط جودة الأداء</th>
+                                        <th>الإجراءات المعلقة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>ثانوية البنين (المسار الوطني)</strong></td>
+                                        <td>34 معلماً</td>
+                                        <td><span class="badge badge-success">100%</span></td>
+                                        <td>94%</td>
+                                        <td><strong class="text-primary">94.2%</strong></td>
+                                        <td><span class="badge badge-success">0 معلقة</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>المسار الدولي (American Diploma)</strong></td>
+                                        <td>26 معلماً ومعلمة</td>
+                                        <td><span class="badge badge-warning">88%</span></td>
+                                        <td>90%</td>
+                                        <td><strong class="text-primary">92.5%</strong></td>
+                                        <td><span class="badge badge-warning">1 قيد التنفيذ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ثانوية البنات (المسار الوطني)</strong></td>
+                                        <td>32 معلمة</td>
+                                        <td><span class="badge badge-success">98%</span></td>
+                                        <td>92%</td>
+                                        <td><strong class="text-primary">91.8%</strong></td>
+                                        <td><span class="badge badge-success">0 معلقة</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>المرحلة الابتدائية والصفوف الأولية</strong></td>
+                                        <td>28 معلماً ومعلمة</td>
+                                        <td><span class="badge badge-danger">75%</span></td>
+                                        <td>78%</td>
+                                        <td><strong class="text-danger">74.0%</strong></td>
+                                        <td><span class="badge badge-danger">1 متجاوزة للمهلة</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- ====================================================
+                     VIEW 7: SCHOOL BRANCHES / CAMPUSES (أقسام المدارس)
+                     ==================================================== -->
+                <section class="view-page" id="view-schools">
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">فروع وأقسام مجمع المدينة الأكاديمية</span>
+                            </div>
+                            <h1 class="page-title">أقسام ومراحل مجمع مدارس المدينة الأكاديمية 🏫</h1>
+                            <p class="page-description">تفاصيل المجمعات والمراحل الدراسية والطاقة الاستيعابية والكادر
+                                التعليمي لكل قسم.</p>
+                        </div>
+                    </div>
+
+                    <div class="schools-grid">
+                        <div class="school-card">
+                            <div class="school-card-header">
+                                <div class="school-icon"><i class="fa-solid fa-school-flag"></i></div><span
+                                    class="badge badge-success">المسار الوطني</span>
+                            </div>
+                            <h3 class="school-title">المدينة الأكاديمية - ثانوية البنين</h3>
+                            <p class="school-desc">المرحلة الثانوية العامة ومسارات التخصص (علمي وهندسي وحاسوبي).</p>
+                            <div class="school-stats-row">
+                                <div><strong>34</strong><span>معلماً</span></div>
+                                <div><strong>480</strong><span>طالباً</span></div>
+                                <div><strong>94.2%</strong><span>معدل الجودة</span></div>
+                            </div>
+                            <div class="school-card-footer"><button class="btn btn-outline btn-sm w-100"
+                                    onclick="viewBranchTeachers('ثانوي بنين')"><i class="fa-solid fa-users"></i> عرض
+                                    كادر المعلمين</button></div>
+                        </div>
+
+                        <div class="school-card">
+                            <div class="school-card-header">
+                                <div class="school-icon"><i class="fa-solid fa-earth-americas"></i></div><span
+                                    class="badge badge-primary">American Diploma</span>
+                            </div>
+                            <h3 class="school-title">المدينة الأكاديمية - المسار الدولي</h3>
+                            <p class="school-desc">البرنامج الدولي المعتمد لشهادة الدبلوما الأمريكية (K-12 American
+                                Curriculum).</p>
+                            <div class="school-stats-row">
+                                <div><strong>26</strong><span>معلماً</span></div>
+                                <div><strong>320</strong><span>طالباً</span></div>
+                                <div><strong>92.5%</strong><span>معدل الجودة</span></div>
+                            </div>
+                            <div class="school-card-footer"><button class="btn btn-outline btn-sm w-100"
+                                    onclick="viewBranchTeachers('المسار الدولي')"><i class="fa-solid fa-users"></i> عرض
+                                    كادر المعلمين</button></div>
+                        </div>
+
+                        <div class="school-card">
+                            <div class="school-card-header">
+                                <div class="school-icon"><i class="fa-solid fa-building-columns"></i></div><span
+                                    class="badge badge-success">المسار الوطني</span>
+                            </div>
+                            <h3 class="school-title">المدينة الأكاديمية - ثانوية البنات</h3>
+                            <p class="school-desc">مجمع البنات للمرحلة الثانوية ومسارات إدارة الأعمال والعلوم الصحية.
+                            </p>
+                            <div class="school-stats-row">
+                                <div><strong>32</strong><span>معلمة</span></div>
+                                <div><strong>450</strong><span>طالبة</span></div>
+                                <div><strong>91.8%</strong><span>معدل الجودة</span></div>
+                            </div>
+                            <div class="school-card-footer"><button class="btn btn-outline btn-sm w-100"
+                                    onclick="viewBranchTeachers('ثانوي بنات')"><i class="fa-solid fa-users"></i> عرض
+                                    كادر المعلمين</button></div>
+                        </div>
+
+                        <div class="school-card">
+                            <div class="school-card-header">
+                                <div class="school-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span
+                                    class="badge badge-warning">الصفوف الأولية</span>
+                            </div>
+                            <h3 class="school-title">المدينة الأكاديمية - المرحلة الابتدائية</h3>
+                            <p class="school-desc">مجمع الطفولة المبكرة والصفوف الأولية والعليا وبرامج التأسيس اللغوي
+                                والرياضيات.</p>
+                            <div class="school-stats-row">
+                                <div><strong>28</strong><span>معلماً ومعلمة</span></div>
+                                <div><strong>510</strong><span>طالباً وطالبة</span></div>
+                                <div><strong>74.0%</strong><span>معدل الجودة</span></div>
+                            </div>
+                            <div class="school-card-footer"><button class="btn btn-outline btn-sm w-100"
+                                    onclick="viewBranchTeachers('ابتدائي')"><i class="fa-solid fa-users"></i> عرض كادر
+                                    المعلمين</button></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ====================================================
+                     VIEW 8: SETTINGS & INTEGRATIONS (الإعدادات)
+                     ==================================================== -->
+                <section class="view-page" id="view-settings">
+                    <div class="page-header">
+                        <div class="page-title-box">
+                            <div class="breadcrumb">
+                                <a href="javascript:void(0)" onclick="switchTab('dashboard')">الرئيسية</a>
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span class="active-crumb">إعدادات المنظومة وتكامل الأنظمة</span>
+                            </div>
+                            <h1 class="page-title">إعدادات المنظومة والربط التقني ⚙️</h1>
+                            <p class="page-description">تخصيص معايير التقييم، بيانات المشرف المقيم، وروابط تكامل
+                                مايكروسوفت ون درايف وكلاسيرة.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-layout">
+                        <!-- Supabase Cloud Integration Card -->
+                        <div class="content-card settings-card" style="border-top: 4px solid #3b82f6;">
+                            <div class="card-header-flex" style="margin-bottom: 1rem;">
+                                <div>
+                                    <h3 class="settings-card-title"><i
+                                            class="fa-solid fa-cloud-arrow-up text-primary"></i> الربط السحابي وقاعدة
+                                        البيانات (Supabase PostgreSQL)</h3>
+                                    <p class="text-xs text-muted" style="margin-top: 0.25rem;">ربط مباشر مع قاعدة بيانات
+                                        سوبابيز لحفظ ومزامنة خطط المعلمين والزيارات وتقارير التقييم بشكل سحابي فوري.</p>
+                                </div>
+                                <span class="supabase-status-badge badge badge-info" id="supabaseStatusBadge"><i
+                                        class="fa-solid fa-database"></i> وضع التخزين المحلي الافتراضي</span>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group col-6">
+                                    <label class="form-label required">عنوان مشروع سوبابيز (Project URL)</label>
+                                    <input type="text" id="supabaseUrlInput" class="form-control"
+                                        placeholder="https://your-project-id.supabase.co" value="https://cxcawkqtbwcorrmpdmlj.supabase.co" dir="ltr">
+                                    <span class="text-xs text-muted">تم نسخه من لوحة تحكم مشروعك في سوبابيز</span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label required">مفتاح الوصول العام (Anon / Publishable Key)</label>
+                                    <input type="password" id="supabaseKeyInput" class="form-control"
+                                        placeholder="sb_publishable_..." value="sb_publishable_PlMp4cZYNLGEkAZYfRjFJQ_ahy59e6h" dir="ltr">
+                                    <span class="text-xs text-muted">المفتاح الآمن المعتمد للاستخدام من المتصفح</span>
+                                </div>
+                                <div class="form-group col-12">
+                                    <div
+                                        style="background: rgba(59, 130, 246, 0.05); border: 1px dashed rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; align-items: center;">
+                                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                            <i class="fa-solid fa-circle-info text-primary"></i>
+                                            <span class="text-xs">تم إنشاء سكريبت التهيئة الشامل
+                                                <strong>supabase_schema.sql</strong> داخل مجلد المشروع، جاهز للتشغيل في
+                                                SQL Editor.</span>
+                                        </div>
+                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                            <button type="button" class="btn btn-outline btn-sm" id="testSupabaseBtn"
+                                                onclick="testSupabaseConnection()">
+                                                <i class="fa-solid fa-plug"></i>
+                                                <span>فحص واختبار الاتصال</span>
+                                            </button>
+                                            <button type="button" class="btn btn-outline btn-sm" id="syncSupabaseBtn"
+                                                onclick="syncToSupabaseCloud()">
+                                                <i class="fa-solid fa-arrows-rotate"></i>
+                                                <span>رفع ومزامنة البيانات الحالية (Seed Sync)</span>
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="saveSupabaseConfig()">
+                                                <i class="fa-solid fa-floppy-disk"></i>
+                                                <span>حفظ وتفعيل المفاتيح</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Integrations Status Card -->
+                        <div class="content-card settings-card">
+                            <h3 class="settings-card-title"><i class="fa-solid fa-network-wired text-primary"></i> تكامل
+                                الأنظمة السحابية والملفات</h3>
+                            <div class="form-grid">
+                                <div class="form-group col-6">
+                                    <label class="form-label">حساب Microsoft 365 / OneDrive المعتمد</label>
+                                    <input type="text" class="form-control" readonly
+                                        value="onedrive.live.com/academiccity/supervision_hub">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">معرف الربط مع منصة كلاسيرة (Classera)</label>
+                                    <input type="text" class="form-control" readonly
+                                        value="CLS-ORG-ACADEMIC-CITY-RIYADH">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Card Settings -->
+                        <div class="content-card settings-card">
+                            <div class="card-header-flex" style="margin-bottom: 1rem;">
+                                <h3 class="settings-card-title"><i class="fa-solid fa-id-card"></i> بيانات المشرف
+                                    التربوي المقيم</h3>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="saveSupervisorProfile()">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    <span>تأكيد وحفظ بيانات المشرف</span>
+                                </button>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group col-6">
+                                    <label class="form-label">الاسم الكامل للمشرف</label>
+                                    <input type="text" id="settingSupervisorName" class="form-control"
+                                        value="د. فرج دنيا">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">المسمى والصفة الإشرافية</label>
+                                    <input type="text" id="settingSupervisorTitle" class="form-control"
+                                        value="المشرف التربوي المقيم - مدارس المدينة الأكاديمية">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">البريد الإلكتروني الرسمي</label>
+                                    <input type="email" id="settingSupervisorEmail" class="form-control"
+                                        value="f.donia@academiccity.edu.sa">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">رقم التواصل المعتمد</label>
+                                    <input type="tel" id="settingSupervisorPhone" class="form-control"
+                                        value="+966 50 123 4567">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic Supervision Criteria Weights -->
+                        <div class="content-card settings-card">
+                            <div class="card-header-flex" style="margin-bottom: 1rem;">
+                                <h3 class="settings-card-title"><i class="fa-solid fa-sliders"></i> أوزان ومعايير بطاقة
+                                    الملاحظة الصفيّة (100%)</h3>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="saveCriteriaWeights()">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    <span>تأكيد وحفظ أوزان المعايير</span>
+                                </button>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group col-6">
+                                    <label class="form-label">1. التخطيط والإعداد الكتابي (%)</label>
+                                    <input type="number" id="settingWeightPlanning" class="form-control" value="20"
+                                        min="0" max="100">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">2. استراتيجيات التدريس والتعلم النشط (%)</label>
+                                    <input type="number" id="settingWeightTeaching" class="form-control" value="30"
+                                        min="0" max="100">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">3. إدارة الصف والتفاعل الطلابي (%)</label>
+                                    <input type="number" id="settingWeightClassroom" class="form-control" value="25"
+                                        min="0" max="100">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">4. التقويم الصفي والتغذية الراجعة (%)</label>
+                                    <input type="number" id="settingWeightAssessment" class="form-control" value="25"
+                                        min="0" max="100">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 1: WEEKLY PLAN REVIEW DRAWER (مراجعة واعتماد الخطة)
+             ========================================================== -->
+        <div class="modal-overlay" id="reviewPlanModal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-calendar-week"></i></div>
+                        <div>
+                            <h2 class="modal-title">مراجعة وتدقيق الخطة الأسبوعية <span id="reviewPlanIdDisplay"
+                                    class="text-primary font-bold"></span></h2>
+                            <p class="modal-subtitle">التدقيق الإشرافي لمكونات الدروس، الواجبات، الأهداف، والأنشطة
+                                التفاعلية على كلاسيرة وOneDrive.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Plan Info Banner -->
+                    <div class="plan-review-banner">
+                        <div class="review-meta-item"><span>المعلم:</span><strong id="reviewPlanTeacher">--</strong>
+                        </div>
+                        <div class="review-meta-item"><span>المادة والمرحلة:</span><strong
+                                id="reviewPlanSubjectGrade">--</strong></div>
+                        <div class="review-meta-item"><span>الفترة الزمنية:</span><strong
+                                id="reviewPlanDateRange">--</strong></div>
+                        <div class="review-meta-item"><span>القيمة الشهرية:</span><strong
+                                id="reviewPlanTheme">--</strong></div>
+                        <div class="review-meta-links">
+                            <a href="#" target="_blank" id="reviewPlanOneDriveLink" class="badge badge-info"><i
+                                    class="fa-brands fa-microsoft"></i> مستند ون درايف</a>
+                            <a href="#" target="_blank" id="reviewPlanClasseraLink" class="badge badge-success"><i
+                                    class="fa-solid fa-graduation-cap"></i> مقرر كلاسيرة</a>
+                        </div>
+                    </div>
+
+                    <!-- AI Completeness Trigger Bar -->
+                    <div class="ai-trigger-banner">
+                        <div>
+                            <strong><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> المساعد الإشرافي الذكي
+                                (AI Inspector)</strong>
+                            <p class="text-xs text-muted">فحص اكتمال الخطة، توازن الواجبات، وكشف الحصص غير المرتبطة
+                                بروابط كلاسيرة.</p>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-sm" id="runAIPlanCheckBtn"
+                            onclick="UIManager.runAIPlanCheck()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> فحص اكتمال الخطة بالذكاء الاصطناعي
+                        </button>
+                    </div>
+
+                    <!-- AI Result Box -->
+                    <div id="aiPlanAnalysisResultBox" style="display: none; margin-bottom: 1rem;"></div>
+
+                    <!-- Day-by-day Plan Table -->
+                    <h4 class="rubric-section-title">التوزيع التفصيلي للحصص والدروس الأسبوعية:</h4>
+                    <div class="table-responsive" style="margin-bottom: 1rem;">
+                        <table class="data-table data-table-sm">
+                            <thead>
+                                <tr>
+                                    <th>اليوم والحصة</th>
+                                    <th>موضوع الدرس</th>
+                                    <th>المهارات المستهدفة</th>
+                                    <th>الواجبات والتطبيقات</th>
+                                    <th>رابط كلاسيرة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewPlanDaysTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Supervisor Comments -->
+                    <div class="form-group">
+                        <label class="form-label required">ملحوظات وتوجيهات المشرف التربوي المقيم</label>
+                        <textarea id="reviewSupervisorNotes" class="form-control" rows="2"
+                            placeholder="اكتب ملحوظاتك الإشرافية للمعلم..."></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إغلاق</button>
+                    <button type="button" class="btn btn-outline text-danger"
+                        onclick="UIManager.submitPlanReviewDecision('needs_revision')">
+                        <i class="fa-solid fa-rotate-left"></i> طلب تعديل الخطة
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="UIManager.submitPlanReviewDecision('approved')">
+                        <i class="fa-solid fa-check"></i> اعتماد الخطة الأسبوعية
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 2: TEACHER 360° SUPERVISION PROFILE (الملف الإشرافي 360)
+             ========================================================== -->
+        <div class="modal-overlay" id="teacher360Modal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-id-card-clip"></i></div>
+                        <div>
+                            <h2 class="modal-title" id="t360Name">الملف الإشرافي الموحد للمعلم</h2>
+                            <p class="modal-subtitle" id="t360SubjectBranch">السجل التراكمي الشامل للخطط، الزيارات
+                                الصفية، وشواهد التطوير المهني.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- 360 Profile Banner -->
+                    <div class="t360-profile-banner">
+                        <div class="t360-score-badge">
+                            <span class="t360-score-val" id="t360Rating">--</span>
+                            <span class="t360-score-lbl">معدل الأداء العام</span>
+                        </div>
+                        <div class="t360-info-col">
+                            <div><i class="fa-solid fa-envelope"></i> <span id="t360Email">--</span></div>
+                            <div><i class="fa-solid fa-phone"></i> <span id="t360Phone">--</span></div>
+                            <div><i class="fa-solid fa-graduation-cap"></i> معرّف كلاسيرة: <span
+                                    id="t360ClasseraId">--</span></div>
+                        </div>
+                        <div class="t360-link-col">
+                            <a href="#" target="_blank" id="t360OneDriveLink" class="btn btn-outline btn-sm">
+                                <i class="fa-brands fa-microsoft"></i> ملف إنجاز المعلم (OneDrive)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="t360-status-box">
+                        <strong>📌 التشخيص الإشرافي الحالي:</strong>
+                        <p id="t360StatusReason">--</p>
+                    </div>
+
+                    <!-- Strengths and Areas for Improvement -->
+                    <div class="t360-strengths-grid">
+                        <div class="t360-box strengths">
+                            <h4><i class="fa-solid fa-thumbs-up text-success"></i> أبرز نقاط القوة التدريسية:</h4>
+                            <ul id="t360StrengthsList"></ul>
+                        </div>
+                        <div class="t360-box gaps">
+                            <h4><i class="fa-solid fa-bullseye text-warning"></i> فرص ومجالات التحسين:</h4>
+                            <ul id="t360GapsList"></ul>
+                        </div>
+                    </div>
+
+                    <!-- Plans History & Actions -->
+                    <div class="form-grid" style="margin-top: 1rem;">
+                        <div class="form-group col-6">
+                            <h4 class="rubric-section-title">سجل الخطط الأسبوعية:</h4>
+                            <div id="t360PlansContainer" class="t360-mini-list"></div>
+                        </div>
+                        <div class="form-group col-6">
+                            <h4 class="rubric-section-title">خطط التحسين المخصصة:</h4>
+                            <div id="t360ActionsContainer" class="t360-mini-list"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()">
+                        <i class="fa-solid fa-print"></i> طباعة تقرير المعلم
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 3: ADD OBSERVATION (رصد زيارة صفية وملاحظة)
+             ========================================================== -->
+        <div class="modal-overlay" id="addObservationModal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-purple"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div>
+                            <h2 class="modal-title">رصد بطاقة ملاحظة وزيارة صفية معتمدة</h2>
+                            <p class="modal-subtitle">تقييم الممارسات التدريسية وتوثيق الشواهد وفق معايير الإشراف
+                                المعتمدة.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="addObservationForm">
+                    <div class="modal-body">
+                        <div class="form-grid">
+                            <div class="form-group col-6">
+                                <label class="form-label required">اسم المعلم</label>
+                                <select id="obsTeacherSelect" class="form-control" required></select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">موضوع الدرس</label>
+                                <input type="text" id="obsLessonTopic" class="form-control"
+                                    placeholder="مثال: تطبيقات التكامل في الهندسة" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">الصف والقاعة</label>
+                                <input type="text" id="obsGradeLevel" class="form-control"
+                                    placeholder="3/علمي - قاعة 102" required>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label required">تاريخ الزيارة</label>
+                                <input type="date" id="obsVisitDate" class="form-control" required>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label required">الحصة الدراسية</label>
+                                <select id="obsPeriodSelect" class="form-control" required>
+                                    <option value="الحصة الأولى (08:00 ص)">الحصة الأولى</option>
+                                    <option value="الحصة الثانية (08:30 ص)" selected>الحصة الثانية</option>
+                                    <option value="الحصة الثالثة (09:15 ص)">الحصة الثالثة</option>
+                                    <option value="الحصة الرابعة (10:15 ص)">الحصة الرابعة</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Rubric Inputs -->
+                        <h4 class="rubric-section-title">محاور وبنود التقييم الصفي (100 درجة):</h4>
+                        <div class="rubric-items">
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>1. التخطيط والإعداد الكتابي والذهني (20)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="obsScorePlanning"
+                                        class="form-control rubric-input" min="0" max="20" value="19"
+                                        oninput="UIManager.calcObsTotalScore()"> / 20</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>2. استراتيجيات التدريس والتعلم النشط (30)</strong>
+                                </div>
+                                <div class="rubric-input-box"><input type="number" id="obsScoreTeaching"
+                                        class="form-control rubric-input" min="0" max="30" value="28"
+                                        oninput="UIManager.calcObsTotalScore()"> / 30</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>3. الإدارة الصفية ومراعاة الفروق (25)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="obsScoreClassroom"
+                                        class="form-control rubric-input" min="0" max="25" value="24"
+                                        oninput="UIManager.calcObsTotalScore()"> / 25</div>
+                            </div>
+                            <div class="rubric-row">
+                                <div class="rubric-info"><strong>4. التقويم الصفي والتغذية الراجعة (25)</strong></div>
+                                <div class="rubric-input-box"><input type="number" id="obsScoreAssessment"
+                                        class="form-control rubric-input" min="0" max="25" value="24"
+                                        oninput="UIManager.calcObsTotalScore()"> / 25</div>
+                            </div>
+                        </div>
+
+                        <div class="score-summary-box">
+                            <div>
+                                <span class="score-summary-label">الدرجة المحتسبة:</span>
+                                <div class="score-summary-val"><span id="obsTotalScoreDisplay">95</span> / 100</div>
+                            </div>
+                            <span class="rating-badge" id="obsRatingTextDisplay">ممتاز مرتفع</span>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 1rem;">
+                            <div class="form-group col-6">
+                                <label class="form-label required">أبرز نقاط القوة</label>
+                                <textarea id="obsStrengthsInput" class="form-control" rows="2" required
+                                    placeholder="تفاعل الطلاب، توظيف أدوات كلاسيرة..."></textarea>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label required">فرص ومجالات التحسين</label>
+                                <textarea id="obsGapsInput" class="form-control" rows="2" required
+                                    placeholder="استراتيجية طرح الأسئلة، تمايز المهام..."></textarea>
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="form-label">توصيات المشرف التربوي المقيم</label>
+                                <textarea id="obsRecsInput" class="form-control" rows="2"
+                                    placeholder="التوصية بورش عمل، ورش تبادل زيارات..."></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline"
+                            onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> تأكيد واعتماد الزيارة
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 4: ADD / EDIT IMPROVEMENT ACTION (إجراء تحسيني)
+             ========================================================== -->
+        <div class="modal-overlay" id="addActionModal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-bullseye-arrow"></i></div>
+                        <div>
+                            <h2 class="modal-title">إنشاء خطة وإجراء تحسيني ذكي (SMART)</h2>
+                            <p class="modal-subtitle">تحويل الملحوظة إلى هدف محدد وقابل للقياس مرتبط بموعد نهائي.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <form id="addImprovementActionForm">
+                    <div class="modal-body">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label required">المعلم المعني</label>
+                            <select id="actionTeacherSelect" class="form-control" required></select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label required">الفجوة / الملاحظة المرصودة</label>
+                            <textarea id="actionProblemInput" class="form-control" rows="2" required
+                                placeholder="مثال: محدودية استخدام استراتيجيات التعلم النشط..."></textarea>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label required">الإجراء التحسيني المطلوب (SMART Action)</label>
+                            <textarea id="actionPlanInput" class="form-control" rows="2" required
+                                placeholder="مثال: تطبيق استراتيجية الاستقصاء في حصتين وتوثيقها على ون درايف..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">الموعد النهائي للتنفيذ</label>
+                            <input type="date" id="actionDeadlineInput" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline"
+                            onclick="UIManager.closeAllModals()">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> تأكيد وجدولة الإجراء التحسيني
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 5: AI WEEKLY EXECUTIVE SUMMARY (تقرير الذكاء الاصطناعي)
+             ========================================================== -->
+        <div class="modal-overlay" id="aiSummaryReportModal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-lg">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div>
+                            <h2 class="modal-title">التقرير الإشرافي التنفيذي الذكي (AI Supervisor Brief)</h2>
+                            <p class="modal-subtitle">ملخص آلي موجه للقيادة المدرسية يحلل حالة الخطط، الزيارات،
+                                والإجراءات الحرجة.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="plan-review-banner">
+                        <div class="review-meta-item"><span>الفترة:</span><strong id="aiRepWeek">الأسبوع 4</strong>
+                        </div>
+                        <div class="review-meta-item"><span>تاريخ التقرير:</span><strong id="aiRepDate">--</strong>
+                        </div>
+                        <div class="review-meta-item"><span>نسبة التغطية:</span><strong id="aiRepRate"
+                                class="text-primary">--</strong></div>
+                    </div>
+
+                    <div class="t360-status-box" style="margin-top: 1rem;">
+                        <strong>📢 الخلاصة التنفيذية للمشرف:</strong>
+                        <p id="aiRepHeadline" class="font-bold">--</p>
+                    </div>
+
+                    <div class="form-grid" style="margin-top: 1rem;">
+                        <div class="form-group col-6">
+                            <h4 class="rubric-section-title">✅ أبرز الإنجازات الأسبوعية:</h4>
+                            <ul id="aiRepHighlightsList" class="t360-mini-list"></ul>
+                        </div>
+                        <div class="form-group col-6">
+                            <h4 class="rubric-section-title">⚠️ التنبيهات الإشرافية الحرجة:</h4>
+                            <ul id="aiRepAlertsList" class="t360-mini-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <strong>🎯 خطة التدخل الإشرافي المقترحة للأسبوع القادم:</strong>
+                        <p id="aiRepActionPlan" class="text-sm" style="margin-top: 0.25rem;">--</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()">
+                        <i class="fa-solid fa-print"></i> طباعة الملخص الذكي
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             MODAL 6: OFFICIAL CAMPUS SUPERVISION REPORT (تقرير المجمع الشامل الفعلي)
+             ========================================================== -->
+        <div class="modal-overlay" id="campusFullReportModal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-lg" style="max-width: 900px;">
+                <div class="modal-header">
+                    <div class="modal-title-box">
+                        <div class="modal-icon icon-primary"><i class="fa-solid fa-file-invoice"></i></div>
+                        <div>
+                            <h2 class="modal-title">التقرير الإشرافي الفعلي الشامل لمجمع مدارس المدينة الأكاديمية</h2>
+                            <p class="modal-subtitle">وثيقة المتابعة الأكاديمية الرسمية المعتمدة للفصل الدراسي الأول 2026 / 2027.</p>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="UIManager.closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body print-area" id="campusReportPrintableArea">
+
+                    <!-- Official Document Header -->
+                    <div class="official-report-header">
+                        <div class="report-header-right">
+                            <p>المملكة العربية السعودية</p>
+                            <p>وزارة التعليم</p>
+                            <p>الإدارة العامة للتعليم بمنطقة الرياض</p>
+                            <p><strong>مجمع مدارس المدينة الأكاديمية (الوطني والدولي)</strong></p>
+                        </div>
+                        <div class="report-header-center">
+                            <div class="official-logo-box" style="background: transparent; border: none; box-shadow: none; width: 64px; height: 64px; padding: 0;">
+                                <img src="assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;">
+                            </div>
+                            <h3>التقرير الإشرافي الشامل لجودة الأداء الأكاديمي</h3>
+                            <span class="report-ref-badge">الرقم المرجعي: AC-SUP-2026/04</span>
+                        </div>
+                        <div class="report-header-left">
+                            <p><strong>التاريخ:</strong> 24 أغسطس 2026</p>
+                            <p><strong>الفصل الدراسي:</strong> الأول</p>
+                            <p><strong>المشرف المقيم:</strong> د. فرج دنيا</p>
+                        </div>
+                    </div>
+
+                    <!-- Executive Summary Box -->
+                    <div class="report-summary-box">
+                        <h4><i class="fa-solid fa-circle-info text-primary"></i> الملخص التنفيذي ومؤشرات الجودة العامة بالمجمع</h4>
+                        <div class="report-metrics-grid">
+                            <div class="rep-metric-item">
+                                <span class="rep-metric-val">142</span>
+                                <span class="rep-metric-lbl">إجمالي الكادر التعليمي</span>
+                            </div>
+                            <div class="rep-metric-item">
+                                <span class="rep-metric-val text-success">94.8%</span>
+                                <span class="rep-metric-lbl">نسبة تسليم الخطط الأسبوعية</span>
+                            </div>
+                            <div class="rep-metric-item">
+                                <span class="rep-metric-val text-primary">91.4%</span>
+                                <span class="rep-metric-lbl">معدل جودة التدريس الصفي</span>
+                            </div>
+                            <div class="rep-metric-item">
+                                <span class="rep-metric-val text-purple">83.3%</span>
+                                <span class="rep-metric-lbl">نسبة إغلاق خطط التحسين</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Performance Table -->
+                    <h4 class="rubric-section-title">أولاً: مصفوفة الأداء التفصيلية لأقسام وفروع المجمع (6 فروع):</h4>
+                    <div class="table-responsive" style="margin-bottom: 1.25rem;">
+                        <table class="data-table data-table-sm">
+                            <thead>
+                                <tr>
+                                    <th>القسم / المرحلة</th>
+                                    <th>عدد المعلمين</th>
+                                    <th>التزام الخطط (OneDrive)</th>
+                                    <th>متوسط الزيارات الصفية</th>
+                                    <th>تكامل كلاسيرة</th>
+                                    <th>الحالة الإشرافية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>ثانوية البنين (المسار الوطني)</strong></td>
+                                    <td>34 معلماً</td>
+                                    <td><span class="badge badge-success">100%</span></td>
+                                    <td><strong>94.2%</strong></td>
+                                    <td><span class="badge badge-success">ممتاز</span></td>
+                                    <td><span class="score-badge score-high">🟢 مستقر ومتميز</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>المسار الدولي (American Diploma)</strong></td>
+                                    <td>26 معلماً ومعلمة</td>
+                                    <td><span class="badge badge-warning">92.3%</span></td>
+                                    <td><strong>92.5%</strong></td>
+                                    <td><span class="badge badge-success">ممتاز</span></td>
+                                    <td><span class="score-badge score-high">🟢 مستقر ومتميز</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ثانوية البنات (المسار الوطني)</strong></td>
+                                    <td>32 معلمة</td>
+                                    <td><span class="badge badge-success">98.0%</span></td>
+                                    <td><strong>91.8%</strong></td>
+                                    <td><span class="badge badge-success">ممتاز</span></td>
+                                    <td><span class="score-badge score-high">🟢 مستقر ومتميز</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>متوسطة البنين</strong></td>
+                                    <td>22 معلماً</td>
+                                    <td><span class="badge badge-info">90.5%</span></td>
+                                    <td><strong>89.6%</strong></td>
+                                    <td><span class="badge badge-info">جيد جداً</span></td>
+                                    <td><span class="score-badge score-mid">🟡 بحاجة متابعة</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>متوسطة البنات</strong></td>
+                                    <td>20 معلمة</td>
+                                    <td><span class="badge badge-info">91.0%</span></td>
+                                    <td><strong>88.9%</strong></td>
+                                    <td><span class="badge badge-info">جيد جداً</span></td>
+                                    <td><span class="score-badge score-mid">🟡 بحاجة متابعة</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>المرحلة الابتدائية والصفوف الأولية</strong></td>
+                                    <td>28 معلماً ومعلمة</td>
+                                    <td><span class="badge badge-danger">82.1%</span></td>
+                                    <td><strong>87.4%</strong></td>
+                                    <td><span class="badge badge-warning">متوسط</span></td>
+                                    <td><span class="score-badge score-low">🔴 يتطلب تدخلاً عاجلاً</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Strategic Recommendations -->
+                    <div class="report-recs-box" style="margin-bottom: 1.5rem;">
+                        <h4><i class="fa-solid fa-list-check text-primary"></i> التوصيات الإشرافية الموجهة للمجلس الأكاديمي وإدارة المدارس:</h4>
+                        <ol style="padding-right: 1.5rem; line-height: 1.8; font-size: 0.85rem; color: var(--text-main);">
+                            <li><strong>تعزيز التدريب التخصصي:</strong> عقد ورشة عمل لمعلمي المرحلة الابتدائية حول استراتيجيات التعليم المتمايز وإدارة معمل الحاسب.</li>
+                            <li><strong>تفعيل التكامل السحابي:</strong> إلزام جميع معلمي المسار الدولي باستكمال روابط الواجبات اليومية على كلاسيرة قبل اعتماد الخطة على ون درايف.</li>
+                            <li><strong>متابعة إغلاق خطط التحسين:</strong> ربط التقييم الفصلي للمعلمين بنسبة إغلاق الإجراءات العلاجية SMART الموثقة بالشواهد.</li>
+                        </ol>
+                    </div>
+
+                    <!-- Official Signatures Block -->
+                    <div class="report-signatures-grid">
+                        <div class="sig-block">
+                            <p class="sig-title">المشرف التربوي المقيم</p>
+                            <p class="sig-name"><strong>د. فرج دنيا</strong></p>
+                            <div class="sig-stamp-line">التوقيع: ............................</div>
+                        </div>
+                        <div class="sig-block">
+                            <p class="sig-title">وكيل الشؤون الأكاديمية والتعليمية</p>
+                            <p class="sig-name"><strong>أ. سلطان بن عبدالعزيز</strong></p>
+                            <div class="sig-stamp-line">التوقيع: ............................</div>
+                        </div>
+                        <div class="sig-block">
+                            <p class="sig-title">مدير عام مجمع مدارس المدينة الأكاديمية</p>
+                            <p class="sig-name"><strong>د. فهد بن إبراهيم آل سعود</strong></p>
+                            <div class="official-stamp-circle">
+                                <span>الختم الرسمي للمدارس</span>
+                                <span>مدارس المدينة الأكاديمية</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="UIManager.closeAllModals()">إغلاق</button>
+                    <button type="button" class="btn btn-outline" onclick="exportCampusReportCSV()">
+                        <i class="fa-solid fa-file-csv text-success"></i> تصدير البيانات (Excel)
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="printCampusFullReport()">
+                        <i class="fa-solid fa-print"></i> طباعة / حفظ التقرير PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             TOAST NOTIFICATION CONTAINER
+             ========================================================== -->
+        <div class="toast-container" id="toastContainer"></div>
+
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase_client.js"></script>
+    <script src="js/supabase_service.js"></script>
+
+    <!-- Modular Clean Architecture Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ai_assistant.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

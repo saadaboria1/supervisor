@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أقسام ومراحل المدارس | مدارس المدينة الأكاديمية</title>
+    
+    <!-- School Logo Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="shortcut icon" href="../favicon.png">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="app-layout" id="appLayout">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-container">
+                    <img src="../assets/logo.png" alt="شعار مدارس المدينة الأكاديمية" class="brand-logo-img">
+                </div>
+                <div class="brand-info">
+                    <h2 class="brand-title">المدينة<span> الأكاديمية</span></h2>
+                    <span class="brand-subtitle">Academic City Schools</span>
+                </div>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sidebar-menu-wrapper">
+                <div class="menu-category">القائمة الرئيسية</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="../index.html#dashboard" class="menu-link"><i class="fa-solid fa-chart-pie menu-icon"></i><span class="menu-text">الرئيسية</span></a></li>
+                    <li class="menu-item"><a href="teachers.html" class="menu-link"><i class="fa-solid fa-chalkboard-user menu-icon"></i><span class="menu-text">المعلمون</span><span class="menu-count" id="sidebarTeacherCount">142</span></a></li>
+                    <li class="menu-item"><a href="visits.html" class="menu-link"><i class="fa-solid fa-calendar-check menu-icon"></i><span class="menu-text">الزيارات المجدولة</span><span class="menu-badge badge-warning" id="sidebarVisitBadge">8 اليوم</span></a></li>
+                    <li class="menu-item"><a href="evaluations.html" class="menu-link"><i class="fa-solid fa-clipboard-list menu-icon"></i><span class="menu-text">التقييمات</span><span class="menu-count" id="sidebarEvalCount">24</span></a></li>
+                </ul>
+                <div class="menu-category">الإدارة والمتابعة</div>
+                <ul class="sidebar-menu">
+                    <li class="menu-item"><a href="reports.html" class="menu-link"><i class="fa-solid fa-chart-line menu-icon"></i><span class="menu-text">التقارير والإحصائيات</span></a></li>
+                    <li class="menu-item"><a href="schools.html" class="menu-link active"><i class="fa-solid fa-school menu-icon"></i><span class="menu-text">أقسام ومراحل المدارس</span></a></li>
+                    <li class="menu-item"><a href="settings.html" class="menu-link"><i class="fa-solid fa-gear menu-icon"></i><span class="menu-text">الإعدادات</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="supervisor-card">
+                    <div class="supervisor-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="المشرف"><span class="status-dot"></span></div>
+                    <div class="supervisor-info"><h4 class="supervisor-name" id="sidebarSupervisorName">د. فرج دنيا</h4><span class="supervisor-role">المشرف المقيم - المدينة الأكاديمية</span></div>
+                    <button class="logout-btn" id="logoutBtn" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left-side">
+                    <button class="header-icon-btn sidebar-toggle" id="sidebarToggle"><i class="fa-solid fa-bars-staggered"></i></button>
+                    <div class="header-search">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearchInput" placeholder="بحث في مجمعات المدينة الأكاديمية...">
+                    </div>
+                </div>
+                <div class="header-right-side">
+                    <button class="btn btn-primary btn-sm" onclick="UIManager.openAddVisitModal()"><i class="fa-solid fa-calendar-plus"></i> جدولة زيارة</button>
+                    <button class="header-icon-btn" onclick="AuthManager.logout()" title="تسجيل الخروج"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header">
+                    <div class="page-title-box">
+                        <div class="breadcrumb">
+                            <a href="../index.html">الرئيسية</a>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <span class="active-crumb">فروع وأقسام مجمع المدينة الأكاديمية</span>
+                        </div>
+                        <h1 class="page-title">أقسام ومراحل مجمع مدارس المدينة الأكاديمية 🏫</h1>
+                        <p class="page-description">تفاصيل المجمعات والمراحل الدراسية والطاقة الاستيعابية والكادر التعليمي لكل قسم.</p>
+                    </div>
+                </div>
+
+                <!-- Schools/Branches Grid Cards -->
+                <div class="schools-grid">
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-school-flag"></i></div><span class="badge badge-success">المسار الوطني</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - ثانوية البنين</h3>
+                        <p class="school-desc">المرحلة الثانوية العامة ومسارات التخصص (علمي وهندسي وحاسوبي).</p>
+                        <div class="school-stats-row"><div><strong>34</strong><span>معلماً</span></div><div><strong>480</strong><span>طالباً</span></div><div><strong>94.2%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-earth-americas"></i></div><span class="badge badge-primary">American Diploma</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - المسار الدولي</h3>
+                        <p class="school-desc">البرنامج الدولي المعتمد لشهادة الدبلوما الأمريكية (K-12 American Curriculum).</p>
+                        <div class="school-stats-row"><div><strong>26</strong><span>معلماً</span></div><div><strong>320</strong><span>طالباً</span></div><div><strong>92.5%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-building-columns"></i></div><span class="badge badge-success">المسار الوطني</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - ثانوية البنات</h3>
+                        <p class="school-desc">مجمع البنات للمرحلة الثانوية ومسارات إدارة الأعمال والعلوم الصحية.</p>
+                        <div class="school-stats-row"><div><strong>32</strong><span>معلمة</span></div><div><strong>450</strong><span>طالبة</span></div><div><strong>91.8%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-book-bookmark"></i></div><span class="badge badge-info">المسار الوطني</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - متوسطة البنين</h3>
+                        <p class="school-desc">المرحلة المتوسطة بنين مع التركيز على المهارات الرقمية والابتكار العلمي.</p>
+                        <div class="school-stats-row"><div><strong>22</strong><span>معلماً</span></div><div><strong>390</strong><span>طالباً</span></div><div><strong>89.6%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-shapes"></i></div><span class="badge badge-info">المسار الوطني</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - متوسطة البنات</h3>
+                        <p class="school-desc">المرحلة المتوسطة بنات مع التركيز على التعلم التفاعلي والأنشطة الإثرائية.</p>
+                        <div class="school-stats-row"><div><strong>20</strong><span>معلمة</span></div><div><strong>360</strong><span>طالبة</span></div><div><strong>88.9%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+
+                    <div class="school-card">
+                        <div class="school-card-header"><div class="school-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="badge badge-warning">الصفوف الأولية</span></div>
+                        <h3 class="school-title">المدينة الأكاديمية - المرحلة الابتدائية</h3>
+                        <p class="school-desc">مجمع الطفولة المبكرة والصفوف الأولية والعليا وبرامج التأسيس اللغوي والرياضيات.</p>
+                        <div class="school-stats-row"><div><strong>28</strong><span>معلماً ومعلمة</span></div><div><strong>510</strong><span>طالباً وطالبة</span></div><div><strong>87.4%</strong><span>معدل الجودة</span></div></div>
+                        <div class="school-card-footer"><a href="teachers.html" class="btn btn-outline btn-sm w-100"><i class="fa-solid fa-users"></i> عرض كادر المعلمين</a></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <!-- Supabase JS Client & Cloud Architecture -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase_client.js"></script>
+    <script src="../js/supabase_service.js"></script>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/state.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>
