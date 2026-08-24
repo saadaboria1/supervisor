@@ -13,7 +13,8 @@ const AppState = {
         OBSERVATIONS: 'AC_CLASSROOM_OBSERVATIONS',
         ACTIONS: 'AC_IMPROVEMENT_ACTIONS',
         SETTINGS: 'AC_SUPERVISION_SETTINGS',
-        ACTIVE_ROLE: 'AC_ACTIVE_USER_ROLE'
+        ACTIVE_ROLE: 'AC_ACTIVE_USER_ROLE',
+        NOTIFICATIONS: 'AC_SUPERVISION_NOTIFICATIONS'
     },
 
     // Current active simulated role (Default: Educational Supervisor)
@@ -323,6 +324,69 @@ const AppState = {
             }
         ],
 
+        notifications: [
+            {
+                id: 1,
+                title: "إجراء تحسيني متجاوز للمهلة",
+                message: "أ. يوسف الشهري (المهارات الرقمية) لم يرفع شواهد المعمل للأسبوع 4.",
+                time: "منذ ساعتين",
+                type: "danger",
+                icon: "fa-solid fa-triangle-exclamation",
+                unread: true,
+                targetView: "actions",
+                actionType: "openTeacherProfile",
+                targetId: 3
+            },
+            {
+                id: 2,
+                title: "خطة أسبوعية بانتظار الاعتماد",
+                message: "رفع أ. محمد بن خالد الدوسري خطة الأسبوع 4 (AP Physics) بانتظار المراجعة والاعتماد.",
+                time: "منذ 4 ساعات",
+                type: "warning",
+                icon: "fa-regular fa-clock",
+                unread: true,
+                targetView: "weekly-plans",
+                actionType: "openPlanReview",
+                targetId: "WP-2026-04-02"
+            },
+            {
+                id: 3,
+                title: "تنبيه نظام الإنذار المبكر",
+                message: "انخفاض معدل تسليم الخطط في قسم الصفوف الأولية - يتطلب تدخلاً ومتابعة ميدانية.",
+                time: "اليوم 08:30",
+                type: "danger",
+                icon: "fa-solid fa-circle-exclamation",
+                unread: true,
+                targetView: "dashboard",
+                actionType: "openTeacherProfile",
+                targetId: 3
+            },
+            {
+                id: 4,
+                title: "زيارة صفية مجدولة اليوم",
+                message: "زيارة صفية مجدولة مع أ. أحمد بن سلطان الشمري (الرياضيات) الساعة 09:30 ص.",
+                time: "اليوم 09:30",
+                type: "info",
+                icon: "fa-solid fa-calendar-check",
+                unread: true,
+                targetView: "visits",
+                actionType: "openTeacherProfile",
+                targetId: 1
+            },
+            {
+                id: 5,
+                title: "إغلاق واعتماد إجراء تحسيني",
+                message: "تم اعتماد شواهد ورش العمل وإغلاق إجراء أ. ريم بنت خالد العتيبي بنجاح.",
+                time: "أمس",
+                type: "success",
+                icon: "fa-solid fa-circle-check",
+                unread: false,
+                targetView: "actions",
+                actionType: "openTeacherProfile",
+                targetId: 4
+            }
+        ],
+
         settings: {
             supervisorName: "د. فرج دنيا",
             supervisorTitle: "المشرف التربوي المقيم - مدارس المدينة الأكاديمية",
@@ -339,6 +403,7 @@ const AppState = {
     weeklyPlans: [],
     observations: [],
     improvementActions: [],
+    notifications: [],
     settings: {},
 
     /**
@@ -350,6 +415,7 @@ const AppState = {
         this.weeklyPlans = this.load(this.STORAGE_KEYS.WEEKLY_PLANS, this.DEFAULT_DATA.weeklyPlans);
         this.observations = this.load(this.STORAGE_KEYS.OBSERVATIONS, this.DEFAULT_DATA.observations);
         this.improvementActions = this.load(this.STORAGE_KEYS.ACTIONS, this.DEFAULT_DATA.improvementActions);
+        this.notifications = this.load(this.STORAGE_KEYS.NOTIFICATIONS, this.DEFAULT_DATA.notifications);
         this.settings = this.load(this.STORAGE_KEYS.SETTINGS, this.DEFAULT_DATA.settings);
         this.activeRole = localStorage.getItem(this.STORAGE_KEYS.ACTIVE_ROLE) || 'supervisor';
 
@@ -359,6 +425,19 @@ const AppState = {
         if (typeof SupabaseClientManager !== 'undefined' && SupabaseConfig.isConfigured()) {
             this.loadFromSupabase();
         }
+    },
+
+    markNotificationRead(notificationId) {
+        const notif = this.notifications.find(n => n.id === notificationId);
+        if (notif) {
+            notif.unread = false;
+            this.save(this.STORAGE_KEYS.NOTIFICATIONS, this.notifications);
+        }
+    },
+
+    markAllNotificationsRead() {
+        this.notifications.forEach(n => n.unread = false);
+        this.save(this.STORAGE_KEYS.NOTIFICATIONS, this.notifications);
     },
 
     /**

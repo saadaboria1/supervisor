@@ -239,6 +239,12 @@ function setupDropdowns() {
         profileMenu?.classList.remove('show');
     });
 
+    const markAllReadBtn = document.getElementById('markAllReadBtn');
+    markAllReadBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        UIManager.markAllNotificationsRead();
+    });
+
     logoutBtn?.addEventListener('click', () => {
         if (confirm('هل ترغب بتسجيل الخروج من منظومة مدارس المدينة الأكاديمية؟')) {
             AuthManager.logout();

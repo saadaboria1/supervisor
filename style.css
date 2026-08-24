@@ -784,6 +784,7 @@ img {
 .notif-icon.info { background-color: var(--primary-100); color: var(--primary-600); }
 .notif-icon.success { background-color: var(--success-100); color: var(--success-600); }
 .notif-icon.warning { background-color: var(--warning-100); color: var(--warning-600); }
+.notif-icon.danger { background-color: var(--danger-100); color: var(--danger-600); }
 
 .notif-content {
     flex: 1;

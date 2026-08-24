@@ -18,6 +18,7 @@ const UIManager = {
      */
     init() {
         this.updateHeaderRole();
+        this.renderNotifications();
         this.renderDashboardMetrics();
         this.renderTrafficLightCards();
         this.renderWeeklyPlans();
@@ -25,6 +26,91 @@ const UIManager = {
         this.renderImprovementActions();
         this.renderTeachersDirectory();
         this.populateTeacherDropdowns();
+    },
+
+    /**
+     * Renders Notifications Dropdown List & Unread Badge
+     */
+    renderNotifications() {
+        const notifList = document.querySelector('#notifMenu .notification-list') || document.querySelector('.notification-list');
+        const badge = document.getElementById('notifBadge');
+        const notifications = AppState.notifications || [];
+
+        const unreadCount = notifications.filter(n => n.unread).length;
+
+        if (badge) {
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        if (!notifList) return;
+
+        notifList.innerHTML = notifications.length > 0 ? notifications.map(n => `
+            <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="UIManager.handleNotificationClick(${n.id})" style="cursor: pointer;">
+                <div class="notif-icon ${n.type || 'info'}">
+                    <i class="${n.icon || 'fa-solid fa-bell'}"></i>
+                </div>
+                <div class="notif-content">
+                    <p class="notif-text"><strong>${n.title}:</strong> ${n.message}</p>
+                    <span class="notif-time">${n.time}</span>
+                </div>
+                ${n.unread ? '<span class="unread-indicator-dot" style="width: 8px; height: 8px; background: #2563eb; border-radius: 50%; flex-shrink: 0; margin-top: 6px;"></span>' : ''}
+            </div>
+        `).join('') : '<div style="padding: 1.5rem; text-align: center; color: #64748b; font-size: 0.85rem;">لا توجد تنبيهات جديدة 🎉</div>';
+    },
+
+    /**
+     * Handles clicking on a notification: Marks read & directly navigates to matching target
+     */
+    handleNotificationClick(notifId) {
+        const notif = (AppState.notifications || []).find(n => n.id === notifId);
+        if (!notif) return;
+
+        // 1. Mark as read
+        AppState.markNotificationRead(notif.id);
+        this.renderNotifications();
+
+        // 2. Close notification dropdown menu
+        const notifMenu = document.getElementById('notifMenu');
+        if (notifMenu) notifMenu.classList.remove('show');
+
+        // 3. Handle subpages routing if inside /pages/
+        const isSubpage = window.location.pathname.includes('/pages/');
+        if (isSubpage) {
+            window.location.href = `../index.html#${notif.targetView}`;
+            return;
+        }
+
+        // 4. Navigate to the exact matching view
+        if (typeof AppRouter !== 'undefined' && notif.targetView) {
+            AppRouter.navigateTo(notif.targetView);
+        }
+
+        // 5. Open corresponding modal or item after navigation
+        setTimeout(() => {
+            if (notif.actionType === 'openPlanReview' && notif.targetId) {
+                this.openPlanReviewModal(notif.targetId);
+            } else if (notif.actionType === 'openTeacherProfile' && notif.targetId) {
+                this.openTeacher360Profile(notif.targetId);
+            } else if (notif.actionType === 'openAddObservation') {
+                this.openAddObservationModal(notif.targetId);
+            }
+
+            this.showToast(`📌 تم فتح التنبيه: ${notif.title}`, 'info');
+        }, 120);
+    },
+
+    /**
+     * Marks all notifications as read
+     */
+    markAllNotificationsRead() {
+        AppState.markAllNotificationsRead();
+        this.renderNotifications();
+        this.showToast('تم تحديد كافة التنبيهات كمقروءة ✅', 'success');
     },
 
     /**
