@@ -433,16 +433,57 @@
     gap: 0.5rem;
 }
 
-/* Responsive Media Queries */
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (تسجيل الدخول على جميع الهواتف)
+   -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
+    .auth-page-body {
+        padding: 1rem;
+        align-items: center;
+    }
+
     .auth-container {
         grid-template-columns: 1fr;
         max-width: 480px;
+        width: 100%;
+        margin: 1rem auto;
+        border-radius: 20px;
     }
+
     .auth-showcase {
         display: none;
     }
+
     .auth-form-side {
-        padding: 2.5rem 2rem;
+        padding: 2.25rem 1.5rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-page-body {
+        padding: 0.5rem;
+    }
+
+    .auth-container {
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .auth-form-side {
+        padding: 1.75rem 1.15rem;
+    }
+
+    .btn-auth,
+    .btn-nafath {
+        height: 48px;
+        font-size: 0.9rem;
+    }
+
+    .role-cards-grid {
+        grid-template-columns: 1fr;
     }
 }
